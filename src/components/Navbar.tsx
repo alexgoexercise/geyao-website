@@ -2,93 +2,116 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Music } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [hasScrolled, setHasScrolled] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
   const pathname = usePathname();
 
+  // Hide/show navbar on scroll
   useEffect(() => {
     const handleScroll = () => {
-      setHasScrolled(window.scrollY > 10);
+      const currentScrollY = window.scrollY;
+      
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        // Scrolling down & past 100px
+        setIsVisible(false);
+      } else {
+        // Scrolling up
+        setIsVisible(true);
+      }
+      
+      setLastScrollY(currentScrollY);
     };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY]);
 
   const navLinks = [
     { href: "/bands", label: "Bands" },
     { href: "/people", label: "People" },
+    { href: "/videos", label: "Videos" },
     { href: "/events", label: "Events" },
     { href: "/contact", label: "Contact" },
   ];
 
   return (
-    <nav
-      className={`sticky top-0 z-50 transition-all duration-300 ease-in-out animate-fade-in-down ${
-        hasScrolled
-          ? "bg-background/80 shadow-lg backdrop-blur-xl border-b border-white/5"
-          : "bg-transparent"
-      }`}
+    <nav 
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out ${
+        isVisible 
+          ? 'translate-y-0 opacity-100' 
+          : '-translate-y-full opacity-0'
+      } hover:translate-y-0 hover:opacity-100`}
     >
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
-          <Link href="/" className="text-white text-2xl font-bold">
-            Geyao
-          </Link>
-          <div className="hidden md:flex space-x-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={cn(
-                  "relative text-lg text-gray-300 hover:text-white transition-colors duration-300",
-                  "after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:w-full after:bg-primary after:origin-center after:scale-x-0 after:transition-transform after:duration-300 after:ease-in-out",
-                  "hover:after:scale-x-100",
-                   pathname === link.href && "after:scale-x-100 text-white"
-                )}
-              >
-                {link.label}
-              </Link>
-            ))}
-          </div>
-          <div className="md:hidden">
+      <div className="bg-gray-900/80 backdrop-blur-md border-b border-gray-700/50">
+        <div className="container mx-auto px-4">
+          <div className="flex items-center justify-between h-14">
+            {/* Logo */}
+            <Link 
+              href="/" 
+              className="flex items-center gap-2 text-white font-bold text-xl hover:text-primary transition-colors"
+            >
+              <Music size={20} />
+              <span>Geyao Music</span>
+            </Link>
+
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex items-center space-x-6">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={cn(
+                    "relative text-sm text-gray-300 hover:text-white transition-colors duration-300",
+                    "after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:w-full after:bg-primary after:origin-center after:scale-x-0 after:transition-transform after:duration-300 after:ease-in-out",
+                    "hover:after:scale-x-100",
+                     pathname === link.href && "after:scale-x-100 text-primary"
+                  )}
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+
+            {/* Mobile Menu Button */}
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="text-white focus:outline-none"
+              className="md:hidden p-2 text-gray-300 hover:text-white transition-colors"
             >
-              {isOpen ? <X size={24} /> : <Menu size={24} />}
+              {isOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
           </div>
         </div>
-      </div>
 
-      {/* Mobile Menu Overlay */}
-      <div
-        className={cn(
-          "fixed inset-0 z-40 bg-background/95 backdrop-blur-lg transition-opacity duration-300 md:hidden",
-          isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+        {/* Mobile Navigation */}
+        {isOpen && (
+          <div className="md:hidden bg-gray-900/95 backdrop-blur-md border-t border-gray-700/50">
+            <div className="container mx-auto px-4 py-4">
+              <div className="flex flex-col space-y-3">
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setIsOpen(false)}
+                    className={cn(
+                      "text-lg py-2 px-4 rounded-lg transition-all duration-300",
+                      pathname === link.href
+                        ? "text-primary bg-primary/10 border border-primary/20"
+                        : "text-gray-300 hover:text-white hover:bg-gray-800/50"
+                    )}
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
         )}
-        onClick={() => setIsOpen(false)}
-      >
-        <div className="container mx-auto h-full flex flex-col items-center justify-center gap-8">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              onClick={() => setIsOpen(false)}
-              className={cn(
-                "text-3xl text-gray-400 hover:text-white transition-colors duration-300",
-                pathname === link.href && "text-primary"
-              )}
-            >
-              {link.label}
-            </Link>
-          ))}
-        </div>
       </div>
     </nav>
   );

@@ -14,7 +14,9 @@ export default function LayoutWrapper({
   return (
     <>
       {showNavbar && <Navbar />}
-      {children}
+      <main className={showNavbar ? "pt-14" : ""}>
+        {children}
+      </main>
     </>
   );
 } 
