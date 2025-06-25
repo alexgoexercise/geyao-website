@@ -26,15 +26,6 @@ const BandPage = async ({ params }: BandPageProps) => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
       <div className="container mx-auto px-4 py-8">
-        {/* Back Button */}
-        <Link 
-          href="/bands"
-          className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors mb-8"
-        >
-          <ArrowLeft size={20} />
-          Back to Bands
-        </Link>
-
         {/* Hero Section */}
         <div className="relative mb-12">
           <div className="flex flex-col lg:flex-row gap-8 items-start">
@@ -49,15 +40,23 @@ const BandPage = async ({ params }: BandPageProps) => {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="absolute top-4 right-4 bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">
-                {band.genre}
-              </div>
             </div>
 
             {/* Band Info */}
             <div className="lg:w-2/3">
               <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">{band.name}</h1>
               
+              {/* 风格 tags section */}
+              {band.tags && band.tags.length > 0 && (
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {band.tags.map((tag, idx) => (
+                    <span key={idx} className="bg-primary/20 text-primary px-3 py-1 rounded-full text-xs font-medium">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
+
               <div className="flex flex-wrap items-center gap-6 text-gray-400 mb-6">
                 <div className="flex items-center gap-2">
                   <Calendar size={20} />
@@ -67,31 +66,11 @@ const BandPage = async ({ params }: BandPageProps) => {
                   <Users size={20} />
                   <span>{bandMembers.length} members</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <Play size={20} />
-                  <span>{bandVideos.length} videos</span>
-                </div>
               </div>
 
               <p className="text-xl text-gray-300 leading-relaxed mb-8">
                 {band.description}
               </p>
-
-              {/* Action Buttons */}
-              <div className="flex flex-wrap gap-4 mb-8">
-                <Link href="/videos" className="flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-full hover:bg-primary/80 transition-colors">
-                  <Play size={20} />
-                  Watch Videos
-                </Link>
-                <button className="flex items-center gap-2 bg-gray-700/50 text-white px-6 py-3 rounded-full hover:bg-gray-600/50 transition-colors">
-                  <Heart size={20} />
-                  Follow
-                </button>
-                <button className="flex items-center gap-2 bg-gray-700/50 text-white px-6 py-3 rounded-full hover:bg-gray-600/50 transition-colors">
-                  <Share2 size={20} />
-                  Share
-                </button>
-              </div>
 
               {/* Social Links */}
               <div className="flex gap-4">
@@ -155,8 +134,6 @@ const BandPage = async ({ params }: BandPageProps) => {
                   </div>
                   <div>
                     <h3 className="text-lg font-bold text-white group-hover:text-primary transition-colors">{member.name}</h3>
-                    <p className="text-primary font-medium text-sm">{member.role}</p>
-                    <p className="text-gray-400 text-xs">{member.department}</p>
                   </div>
                 </div>
               </Link>
@@ -171,13 +148,6 @@ const BandPage = async ({ params }: BandPageProps) => {
               <Play size={32} />
               Performance Videos
             </h2>
-            <Link
-              href="/videos"
-              className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors"
-            >
-              <span>View All Videos</span>
-              <ExternalLink size={16} />
-            </Link>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {bandVideos.map((video) => (
@@ -207,7 +177,6 @@ const BandPage = async ({ params }: BandPageProps) => {
                     </div>
                   </div>
                   <div className="absolute bottom-2 right-2 bg-black/70 text-white px-2 py-1 rounded text-sm">
-                    {formatDuration(video.duration)}
                   </div>
                 </div>
                 
@@ -222,7 +191,6 @@ const BandPage = async ({ params }: BandPageProps) => {
                   <div className="flex items-center justify-between text-xs text-gray-500">
                     <div className="flex items-center gap-1">
                       <Clock size={14} />
-                      <span>{formatDuration(video.duration)}</span>
                     </div>
                     <span className="bg-blue-500/20 text-blue-300 px-2 py-1 rounded text-xs">
                       {video.category}
@@ -237,7 +205,7 @@ const BandPage = async ({ params }: BandPageProps) => {
         {/* Related Bands */}
         <div>
           <h2 className="text-3xl font-bold text-white mb-8">Other Bands</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {bandsData
               .filter(b => b.id !== band.id)
               .slice(0, 3)
@@ -258,9 +226,6 @@ const BandPage = async ({ params }: BandPageProps) => {
                   </div>
                   <h3 className="text-xl font-bold text-white mb-2">{relatedBand.name}</h3>
                   <p className="text-primary text-sm mb-2">{relatedBand.genre}</p>
-                  <p className="text-gray-300 text-sm line-clamp-2">
-                    {relatedBand.description}
-                  </p>
                 </Link>
               ))}
           </div>

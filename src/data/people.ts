@@ -13,7 +13,7 @@ export interface Person {
     };
   };
   role: string;
-  department: string;
+  department: string | string[];
   bands: string[]; // Array of band IDs
 }
 
@@ -32,7 +32,7 @@ export const peopleData: Person[] = [
       }
     },
     role: "Lead Guitarist",
-    department: "Instrumental",
+    department: ["Performer", "Technician"],
     bands: ["1", "4", "6"] // Band 1, Band 4, Band 6
   },
   {
@@ -49,7 +49,7 @@ export const peopleData: Person[] = [
       }
     },
     role: "Lead Vocalist",
-    department: "Vocals",
+    department: "Performer",
     bands: ["1", "2", "5"] // Band 1, Band 2, Band 5
   },
   {
@@ -66,7 +66,7 @@ export const peopleData: Person[] = [
       }
     },
     role: "Drummer",
-    department: "Rhythm",
+    department: ["Performer", "Technician"],
     bands: ["1", "4", "6"] // Band 1, Band 4, Band 6
   },
   {
@@ -83,7 +83,7 @@ export const peopleData: Person[] = [
       }
     },
     role: "Bassist",
-    department: "Instrumental",
+    department: "Performer",
     bands: ["3", "4"] // Band 3, Band 4
   },
   {
@@ -100,7 +100,7 @@ export const peopleData: Person[] = [
       }
     },
     role: "Keyboardist",
-    department: "Electronic",
+    department: ["Performer", "Technician"],
     bands: ["2", "6"] // Band 2, Band 6
   },
   {
@@ -117,7 +117,109 @@ export const peopleData: Person[] = [
       }
     },
     role: "Violinist",
-    department: "Strings",
+    department: "Performer",
     bands: ["3", "5"] // Band 3, Band 5
+  },
+  {
+    id: "7",
+    name: "Michael Chang",
+    photo: "/hero-background.jpg",
+    description: "Music critic and commentator with extensive experience in analyzing musical performances and providing insightful commentary on various genres and styles.",
+    contact: {
+      email: "michael.chang@geyao.edu",
+      phone: "+65 9789 0123",
+      social: {
+        instagram: "@michael_music_critic",
+        twitter: "@mchang_commentary"
+      }
+    },
+    role: "Music Critic",
+    department: ["Commentator", "Publicity"],
+    bands: ["1", "2", "3", "4", "5", "6"] // All bands
+  },
+  {
+    id: "8",
+    name: "Jennifer Lee",
+    photo: "/globe.svg",
+    description: "Public relations specialist and marketing coordinator. Handles media relations, event promotion, and brand management for Geyao Music.",
+    contact: {
+      email: "jennifer.lee@geyao.edu",
+      phone: "+65 9890 1234",
+      social: {
+        instagram: "@jen_publicity",
+        linkedin: "jennifer-lee-pr"
+      }
+    },
+    role: "PR Specialist",
+    department: "Publicity",
+    bands: ["1", "2", "3", "4", "5", "6"] // All bands
+  },
+  {
+    id: "9",
+    name: "Robert Tan",
+    photo: "/file.svg",
+    description: "Event commentator and MC for live performances. Specializes in engaging audiences and providing context for musical performances.",
+    contact: {
+      email: "robert.tan@geyao.edu",
+      phone: "+65 9901 2345",
+      social: {
+        instagram: "@robert_mc",
+        twitter: "@robert_commentator"
+      }
+    },
+    role: "Event MC",
+    department: "Commentator",
+    bands: ["1", "2", "3", "4", "5", "6"] // All bands
+  },
+  {
+    id: "10",
+    name: "Amanda Wong",
+    photo: "/window.svg",
+    description: "Social media manager and content creator. Handles digital marketing, social media campaigns, and online presence for all bands.",
+    contact: {
+      email: "amanda.wong@geyao.edu",
+      phone: "+65 9012 3456",
+      social: {
+        instagram: "@amanda_social",
+        linkedin: "amanda-wong-digital"
+      }
+    },
+    role: "Social Media Manager",
+    department: "Publicity",
+    bands: ["1", "2", "3", "4", "5", "6"] // All bands
+  },
+  {
+    id: "11",
+    name: "Kevin Liu",
+    photo: "/hero-background.jpg",
+    description: "Sound engineer and technical specialist. Handles audio equipment setup, mixing, and live sound management for all performances.",
+    contact: {
+      email: "kevin.liu@geyao.edu",
+      phone: "+65 9123 7890",
+      social: {
+        instagram: "@kevin_sound",
+        linkedin: "kevin-liu-audio"
+      }
+    },
+    role: "Sound Engineer",
+    department: "Technician",
+    bands: ["1", "2", "3", "4", "5", "6"] // All bands
+  },
+  {
+    id: "12",
+    name: "Sophie Chen",
+    photo: "/globe.svg",
+    description: "Lighting technician and stage manager. Coordinates lighting design and stage setup for live performances and events.",
+    contact: {
+      email: "sophie.chen@geyao.edu",
+      phone: "+65 9234 8901",
+      social: {
+        instagram: "@sophie_lights",
+        twitter: "@sophie_stage"
+      }
+    },
+    role: "Lighting Technician",
+    department: "Technician",
+    bands: ["1", "2", "3", "4", "5", "6"] // All bands
   }
 ]; 

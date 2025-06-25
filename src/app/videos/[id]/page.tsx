@@ -1,5 +1,4 @@
 import { notFound } from 'next/navigation';
-import VideoPlayer from '@/components/VideoPlayer';
 import { videosData, formatDuration, formatFileSize } from '@/data/videos';
 import { bandsData } from '@/data/bands';
 import { peopleData } from '@/data/people';
@@ -27,16 +26,24 @@ export default async function VideoPage({ params }: VideoPageProps) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900">
       <div className="container mx-auto px-4 py-8">
-        {/* 视频播放器 */}
-        <div className="mb-8">
-          <VideoPlayer
-            src={video.filePath}
-            poster={video.thumbnail}
-            title={video.title}
-            className="w-full aspect-video"
-          />
+        {/* 封面图和外链按钮 */}
+        <div className="mb-8 flex flex-col items-center">
+          {video.thumbnail && (
+            <img
+              src={video.thumbnail}
+              alt={video.title}
+              className="w-full max-w-2xl rounded-lg shadow-lg mb-4 aspect-video object-cover"
+            />
+          )}
+          <a
+            href={video.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow transition-colors text-lg"
+          >
+            前往观看
+          </a>
         </div>
-
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* 视频信息 */}
           <div className="lg:col-span-2 space-y-6">
@@ -45,38 +52,15 @@ export default async function VideoPage({ params }: VideoPageProps) {
               <h1 className="text-3xl font-bold text-white mb-4">{video.title}</h1>
               <p className="text-gray-300 text-lg leading-relaxed">{video.description}</p>
             </div>
-
-            {/* 视频元数据 */}
+            {/* 分类和标签 */}
             <div className="bg-white/5 backdrop-blur-sm rounded-lg p-6 border border-white/10">
-              <h2 className="text-xl font-semibold text-white mb-4">视频信息</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="flex items-center gap-3">
-                  <Clock className="w-5 h-5 text-blue-400" />
-                  <span className="text-gray-300">时长: {formatDuration(video.duration)}</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <FileText className="w-5 h-5 text-blue-400" />
-                  <span className="text-gray-300">大小: {formatFileSize(video.size)}</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <Calendar className="w-5 h-5 text-blue-400" />
-                  <span className="text-gray-300">上传时间: {video.uploadDate}</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <Tag className="w-5 h-5 text-blue-400" />
-                  <span className="text-gray-300">分类: {video.category}</span>
-                </div>
-              </div>
-            </div>
-
-            {/* 标签 */}
-            <div className="bg-white/5 backdrop-blur-sm rounded-lg p-6 border border-white/10">
-              <h2 className="text-xl font-semibold text-white mb-4">标签</h2>
+              <h2 className="text-xl font-semibold text-white mb-4">分类与标签</h2>
               <div className="flex flex-wrap gap-2">
+                <span className="bg-blue-500/20 text-blue-300 px-3 py-1 rounded-full text-sm">{video.category}</span>
                 {video.tags.map((tag, index) => (
                   <span
                     key={index}
-                    className="bg-blue-500/20 text-blue-300 px-3 py-1 rounded-full text-sm"
+                    className="bg-gray-500/20 text-gray-300 px-3 py-1 rounded-full text-sm"
                   >
                     {tag}
                   </span>
@@ -84,10 +68,8 @@ export default async function VideoPage({ params }: VideoPageProps) {
               </div>
             </div>
           </div>
-
-          {/* 侧边栏 */}
+          {/* 侧边栏（乐队和成员信息保留） */}
           <div className="space-y-6">
-            {/* 关联乐队 */}
             {band && (
               <div className="bg-white/5 backdrop-blur-sm rounded-lg p-6 border border-white/10">
                 <h2 className="text-xl font-semibold text-white mb-4">关联乐队</h2>
@@ -105,8 +87,6 @@ export default async function VideoPage({ params }: VideoPageProps) {
                 </Link>
               </div>
             )}
-
-            {/* 乐队成员 */}
             {bandMembers.length > 0 && (
               <div className="bg-white/5 backdrop-blur-sm rounded-lg p-6 border border-white/10">
                 <h2 className="text-xl font-semibold text-white mb-4">乐队成员</h2>
@@ -129,7 +109,6 @@ export default async function VideoPage({ params }: VideoPageProps) {
                 </div>
               </div>
             )}
-
             {/* 相关视频 */}
             <div className="bg-white/5 backdrop-blur-sm rounded-lg p-6 border border-white/10">
               <h2 className="text-xl font-semibold text-white mb-4">相关视频</h2>
@@ -138,19 +117,22 @@ export default async function VideoPage({ params }: VideoPageProps) {
                   .filter(v => v.id !== video.id && (v.bandId === video.bandId || v.category === video.category))
                   .slice(0, 3)
                   .map((relatedVideo) => (
-                    <Link key={relatedVideo.id} href={`/videos/${relatedVideo.id}`} className="group">
+                    <a key={relatedVideo.id} href={relatedVideo.url} target="_blank" rel="noopener noreferrer" className="group">
                       <div className="flex gap-3 p-3 bg-white/10 rounded-lg hover:bg-white/20 transition-colors">
                         <div className="w-16 h-12 bg-gray-700 rounded flex items-center justify-center flex-shrink-0">
-                          <span className="text-gray-400 text-xs">视频</span>
+                          {relatedVideo.thumbnail ? (
+                            <img src={relatedVideo.thumbnail} alt={relatedVideo.title} className="w-full h-full object-cover rounded" />
+                          ) : (
+                            <span className="text-gray-400 text-xs">视频</span>
+                          )}
                         </div>
                         <div className="flex-1 min-w-0">
                           <h4 className="font-medium text-white group-hover:text-blue-400 transition-colors text-sm line-clamp-2">
                             {relatedVideo.title}
                           </h4>
-                          <p className="text-gray-400 text-xs mt-1">{formatDuration(relatedVideo.duration)}</p>
                         </div>
                       </div>
-                    </Link>
+                    </a>
                   ))}
               </div>
             </div>

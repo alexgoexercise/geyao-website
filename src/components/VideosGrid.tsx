@@ -109,9 +109,11 @@ export default function VideosGrid({ videos: propVideos, showFilters = true }: V
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filteredVideos.map((video) => (
-            <Link 
+            <a 
               key={video.id} 
-              href={`/videos/${video.id}`}
+              href={video.url}
+              target="_blank"
+              rel="noopener noreferrer"
               className="group"
             >
               <div className="bg-white/5 backdrop-blur-sm rounded-lg overflow-hidden border border-white/10 hover:border-white/20 transition-all duration-300 hover:transform hover:scale-105">
@@ -128,39 +130,21 @@ export default function VideosGrid({ videos: propVideos, showFilters = true }: V
                       <Play className="w-12 h-12 text-gray-400" />
                     </div>
                   )}
-                  
                   {/* 播放按钮覆盖层 */}
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                     <div className="bg-white/20 backdrop-blur-sm rounded-full p-3">
                       <Play className="w-8 h-8 text-white" fill="white" />
                     </div>
                   </div>
-
-                  {/* 时长标签 */}
-                  <div className="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded">
-                    {formatDuration(video.duration)}
-                  </div>
                 </div>
-
                 {/* 视频信息 */}
                 <div className="p-4">
                   <h3 className="font-semibold text-white mb-2 line-clamp-2 group-hover:text-blue-400 transition-colors">
                     {searchQuery ? highlightText(video.title, searchQuery) : video.title}
                   </h3>
-                  
                   <p className="text-gray-300 text-sm mb-3 line-clamp-2">
                     {searchQuery ? highlightText(video.description, searchQuery) : video.description}
                   </p>
-
-                  {/* 视频元数据 */}
-                  <div className="flex items-center justify-between text-xs text-gray-400">
-                    <div className="flex items-center gap-1">
-                      <Clock className="w-3 h-3" />
-                      <span>{formatDuration(video.duration)}</span>
-                    </div>
-                    <span>{formatFileSize(video.size)}</span>
-                  </div>
-
                   {/* 分类和标签 */}
                   <div className="mt-3 flex flex-wrap gap-1">
                     <span className="bg-blue-500/20 text-blue-300 text-xs px-2 py-1 rounded">
@@ -174,7 +158,7 @@ export default function VideosGrid({ videos: propVideos, showFilters = true }: V
                   </div>
                 </div>
               </div>
-            </Link>
+            </a>
           ))}
         </div>
       )}

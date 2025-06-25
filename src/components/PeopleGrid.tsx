@@ -3,16 +3,15 @@
 import { useState } from "react";
 import { peopleData, Person } from "@/data/people";
 import { bandsData } from "@/data/bands";
-import { Music, Users, Mic, Drum, Guitar, Piano } from "lucide-react";
+import { Music, Users, Mic, Drum, Guitar, Piano, Settings, MessageSquare, Megaphone } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
 const departmentIcons = {
-  "Instrumental": Guitar,
-  "Vocals": Mic,
-  "Rhythm": Drum,
-  "Electronic": Piano,
-  "Strings": Music
+  "Performer": Music,
+  "Technician": Settings,
+  "Commentator": MessageSquare,
+  "Publicity": Megaphone
 };
 
 const PeopleGrid = () => {
@@ -21,9 +20,18 @@ const PeopleGrid = () => {
 
   const filteredPeople = selectedDepartment === "all" 
     ? peopleData 
-    : peopleData.filter(person => person.department === selectedDepartment);
+    : peopleData.filter(person => {
+        if (Array.isArray(person.department)) {
+          return person.department.includes(selectedDepartment);
+        }
+        return person.department === selectedDepartment;
+      });
 
-  const departments = ["all", ...Array.from(new Set(peopleData.map(p => p.department)))];
+  const departments = ["all", ...Array.from(new Set(
+    peopleData.flatMap(p => 
+      Array.isArray(p.department) ? p.department : [p.department]
+    )
+  ))];
 
   const getPersonBands = (bandIds: string[]) => {
     return bandsData.filter(band => bandIds.includes(band.id));
@@ -92,9 +100,6 @@ const PeopleGrid = () => {
                           className="w-full h-full object-cover"
                         />
                       </div>
-                      <div className="absolute -top-2 -right-2 bg-primary text-white px-2 py-1 rounded-full text-xs font-medium">
-                        {person.department}
-                      </div>
                     </div>
                     
                     <div className="flex-1">
@@ -104,9 +109,6 @@ const PeopleGrid = () => {
                         <Users size={14} />
                         <span>{personBands.length} bands</span>
                       </div>
-                      <p className="text-gray-300 text-sm leading-relaxed line-clamp-2">
-                        {person.description}
-                      </p>
                     </div>
                   </div>
 

@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo, useRef } from "react";
 import { bandsData, Band } from "@/data/bands";
 import { peopleData } from "@/data/people";
-import { Instagram, Youtube, Music, Users, Calendar, Play, Guitar, Mic, Drum, Piano, Music2 } from "lucide-react";
+import { Instagram, Youtube, Music, Users, Calendar, Play, Guitar, Mic, Drum, Piano, Music2, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -17,12 +17,71 @@ const genreIcons = {
 };
 
 const BandsGrid = () => {
-  const [selectedGenre, setSelectedGenre] = useState<string>("all");
-  const [hoveredBand, setHoveredBand] = useState<string | null>(null);
+  // 汇总所有tag
+  const allTags = useMemo(() => {
+    const tags = bandsData.flatMap(b => b.tags || []);
+    return Array.from(new Set(tags));
+  }, []);
 
-  const filteredBands = selectedGenre === "all" 
-    ? bandsData 
-    : bandsData.filter(band => band.genre === selectedGenre);
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [search, setSearch] = useState("");
+  const [displayedTags, setDisplayedTags] = useState<string[]>([]);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
+  // 随机选择10个tag展示
+  const refreshDisplayedTags = () => {
+    // 保持已选中的tag
+    const unselectedTags = allTags.filter(tag => !selectedTags.includes(tag));
+    const shuffled = [...unselectedTags].sort(() => Math.random() - 0.5);
+    const newDisplayedTags = [...selectedTags, ...shuffled.slice(0, 10 - selectedTags.length)];
+    setDisplayedTags(newDisplayedTags);
+  };
+
+  // 初始化展示的tags
+  useMemo(() => {
+    refreshDisplayedTags();
+  }, [allTags]);
+
+  // tag点击切换
+  const toggleTag = (tag: string) => {
+    setSelectedTags(prev => prev.includes(tag) ? prev.filter(t => t !== tag) : [...prev, tag]);
+  };
+  // 清空筛选
+  const clearFilters = () => {
+    setSelectedTags([]);
+    setSearch("");
+    searchInputRef.current?.focus();
+  };
+
+  // 筛选乐队 - 支持模糊搜索所有内容
+  const filteredBands = useMemo(() => {
+    return bandsData.filter(band => {
+      // tag筛选
+      const hasTag = selectedTags.length === 0 || (band.tags && band.tags.some(tag => selectedTags.includes(tag)));
+      
+      // 模糊搜索关键词筛选
+      const keyword = search.trim().toLowerCase();
+      if (!keyword) return hasTag;
+      
+      // 搜索乐队名
+      if (band.name.toLowerCase().includes(keyword)) return hasTag;
+      // 搜索描述
+      if (band.description.toLowerCase().includes(keyword)) return hasTag;
+      // 搜索genre
+      if (band.genre.toLowerCase().includes(keyword)) return hasTag;
+      // 搜索tags
+      if (band.tags && band.tags.some(tag => tag.toLowerCase().includes(keyword))) return hasTag;
+      // 搜索成员名
+      const bandMembers = peopleData.filter(person => band.members.includes(person.id));
+      if (bandMembers.some(member => member.name.toLowerCase().includes(keyword))) return hasTag;
+      // 搜索视频名
+      if (band.videos.some(video => video.title.toLowerCase().includes(keyword))) return hasTag;
+      
+      return false;
+    });
+  }, [selectedTags, search]);
+
+  const [hoveredBand, setHoveredBand] = useState<string | null>(null);
 
   const genres = ["all", ...Array.from(new Set(bandsData.map(b => b.genre)))];
 
@@ -43,25 +102,60 @@ const BandsGrid = () => {
           </p>
         </div>
 
-        {/* Genre Filter */}
-        <div className="flex flex-wrap justify-center gap-4 mb-12">
-          {genres.map((genre) => {
-            const Icon = genre === "all" ? Users : genreIcons[genre as keyof typeof genreIcons];
-            return (
+        {/* 搜索 + 随机Tag区 */}
+        <div className="mb-10">
+          {/* 搜索框 */}
+          <div className="flex justify-center mb-8">
+            <div className="relative w-full max-w-xl">
+              <input
+                ref={searchInputRef}
+                type="text"
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+                placeholder="搜索乐队名、成员名、视频名、风格..."
+                className="w-full px-6 py-4 bg-gradient-to-r from-primary/20 via-gray-900 to-primary/20 border-2 border-primary/60 rounded-2xl text-white placeholder-gray-300 focus:outline-none focus:ring-4 focus:ring-primary/40 focus:border-primary shadow-xl font-semibold transition-all duration-300 placeholder:whitespace-nowrap text-sm sm:text-xl"
+                style={{ boxShadow: '0 4px 32px 0 rgba(80,80,180,0.10)' }}
+              />
+            </div>
+          </div>
+          {/* 随机Tag展示 + 操作icon区 */}
+          <div className="relative text-center mb-4">
+            <div className="flex flex-wrap justify-center gap-3 mb-2">
+              {displayedTags.map(tag => (
+                <button
+                  key={tag}
+                  onClick={() => toggleTag(tag)}
+                  className={`px-4 py-2 rounded-full text-sm font-medium border border-primary/30 transition-all duration-200 mx-1
+                    ${selectedTags.includes(tag)
+                      ? "bg-primary text-white scale-110 shadow-lg shadow-primary/20"
+                      : "bg-white/10 text-primary hover:bg-primary/20 hover:scale-105"}
+                  `}
+                >
+                  {tag}
+                </button>
+              ))}
+            </div>
+            <div className="flex justify-center gap-2 mt-2">
               <button
-                key={genre}
-                onClick={() => setSelectedGenre(genre)}
-                className={`flex items-center gap-2 px-6 py-3 rounded-full transition-all duration-300 ${
-                  selectedGenre === genre
-                    ? "bg-primary text-white shadow-lg shadow-primary/25"
-                    : "bg-gray-800/50 text-gray-300 hover:bg-gray-700/50 hover:text-white"
-                }`}
+                onClick={refreshDisplayedTags}
+                className="flex items-center gap-1 px-3 py-2 bg-gray-700/50 text-gray-300 rounded-lg hover:bg-gray-600/50 transition-colors text-sm"
+                title="换一批标签"
               >
-                <Icon size={20} />
-                <span>{genre}</span>
+                <span role="img" aria-label="refresh">🔄</span>
+                换一批标签
               </button>
-            );
-          })}
+              {(selectedTags.length > 0 || search) && (
+                <button
+                  onClick={clearFilters}
+                  className="flex items-center gap-1 px-3 py-2 bg-gray-700/50 text-gray-300 rounded-lg hover:bg-gray-600/50 transition-colors text-sm"
+                  title="重置"
+                >
+                  <X size={16} />
+                  重置
+                </button>
+              )}
+            </div>
+          </div>
         </div>
 
         {/* Bands Grid */}
@@ -93,9 +187,6 @@ const BandsGrid = () => {
                           className="w-full h-full object-cover"
                         />
                       </div>
-                      <div className="absolute -top-2 -right-2 bg-primary text-white px-2 py-1 rounded-full text-xs font-medium">
-                        {band.genre}
-                      </div>
                     </div>
                     
                     <div className="flex-1">
@@ -107,12 +198,16 @@ const BandsGrid = () => {
                         </div>
                         <div className="flex items-center gap-1">
                           <Users size={14} />
-                          <span>{bandMembers.length} members</span>
+                          <span>{bandMembers.length}</span>
                         </div>
                       </div>
-                      <p className="text-gray-300 text-sm leading-relaxed line-clamp-2">
-                        {band.description}
-                      </p>
+                      <div className="flex flex-wrap gap-2 mt-2">
+                        {band.tags && band.tags.map((tag, idx) => (
+                          <span key={idx} className="bg-primary/20 text-primary px-2 py-1 rounded-full text-xs font-medium">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
                     </div>
                   </div>
 

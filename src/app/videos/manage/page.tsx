@@ -135,7 +135,11 @@ export default function VideoManagePage() {
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
                           <div className="w-16 h-12 bg-gray-700 rounded flex items-center justify-center flex-shrink-0">
-                            <span className="text-gray-400 text-xs">视频</span>
+                            {video.thumbnail ? (
+                              <img src={video.thumbnail} alt={video.title} className="w-full h-full object-cover rounded" />
+                            ) : (
+                              <span className="text-gray-400 text-xs">视频</span>
+                            )}
                           </div>
                           <div>
                             <h3 className="font-medium text-white">{video.title}</h3>
@@ -149,38 +153,36 @@ export default function VideoManagePage() {
                         </span>
                       </td>
                       <td className="px-6 py-4 text-gray-300">
-                        {formatDuration(video.duration)}
+                        {/* 移除时长显示 */}
                       </td>
                       <td className="px-6 py-4 text-gray-300">
-                        {formatFileSize(video.size)}
+                        {/* 移除大小显示 */}
                       </td>
                       <td className="px-6 py-4 text-gray-300">
-                        {video.uploadDate}
+                        {/* 移除上传时间显示 */}
                       </td>
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-2">
-                          <Link
-                            href={`/videos/${video.id}`}
+                          <a
+                            href={video.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
                             className="p-2 text-blue-400 hover:text-blue-300 hover:bg-blue-500/10 rounded transition-colors"
-                            title="查看"
+                            title="外部观看"
                           >
                             <Eye className="w-4 h-4" />
-                          </Link>
+                          </a>
                           <button
                             className="p-2 text-green-400 hover:text-green-300 hover:bg-green-500/10 rounded transition-colors"
                             title="编辑"
+                            disabled
                           >
                             <Edit className="w-4 h-4" />
                           </button>
                           <button
-                            className="p-2 text-purple-400 hover:text-purple-300 hover:bg-purple-500/10 rounded transition-colors"
-                            title="下载"
-                          >
-                            <Download className="w-4 h-4" />
-                          </button>
-                          <button
                             className="p-2 text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded transition-colors"
                             title="删除"
+                            disabled
                           >
                             <Trash2 className="w-4 h-4" />
                           </button>

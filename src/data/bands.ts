@@ -4,6 +4,7 @@ export interface Band {
   photo: string;
   description: string;
   genre: string;
+  tags?: string[];
   members: string[]; // Array of person IDs
   formed: string;
   social: {
@@ -26,6 +27,7 @@ export const bandsData: Band[] = [
     photo: "/hero-background.jpg",
     description: "A dynamic rock ensemble that blends traditional Chinese melodies with modern rock elements. Known for their energetic live performances and innovative soundscapes.",
     genre: "Rock Fusion",
+    tags: ["rock", "fusion", "chinese", "modern"],
     members: ["1", "2", "3"], // Alex Chen, Sarah Lim, Marcus Wong
     formed: "2022",
     social: {
@@ -57,6 +59,7 @@ export const bandsData: Band[] = [
     photo: "/globe.svg",
     description: "An electronic-pop group that creates immersive sound experiences through synthesizers and digital production. Their music transcends traditional boundaries.",
     genre: "Electronic Pop",
+    tags: ["electronic", "pop", "synth", "digital"],
     members: ["5", "2"], // David Kim, Sarah Lim
     formed: "2023",
     social: {
@@ -88,6 +91,7 @@ export const bandsData: Band[] = [
     photo: "/file.svg",
     description: "A classical crossover ensemble that brings together traditional string instruments with contemporary arrangements. Elegant and sophisticated performances.",
     genre: "Classical Crossover",
+    tags: ["classical", "crossover", "strings", "contemporary"],
     members: ["6", "4"], // Lisa Zhang, Emma Tan
     formed: "2021",
     social: {
@@ -119,6 +123,7 @@ export const bandsData: Band[] = [
     photo: "/window.svg",
     description: "A jazz fusion quartet that explores the boundaries between traditional jazz and modern improvisation. Known for their complex harmonies and rhythmic innovation.",
     genre: "Jazz Fusion",
+    tags: ["jazz", "fusion", "improvisation", "harmony"],
     members: ["4", "3", "1"], // Emma Tan, Marcus Wong, Alex Chen
     formed: "2023",
     social: {
@@ -150,6 +155,7 @@ export const bandsData: Band[] = [
     photo: "/next.svg",
     description: "An acoustic folk group that tells stories through music. Their intimate performances and heartfelt lyrics create deep connections with audiences.",
     genre: "Acoustic Folk",
+    tags: ["acoustic", "folk", "storytelling", "intimate"],
     members: ["2", "6"], // Sarah Lim, Lisa Zhang
     formed: "2022",
     social: {
@@ -181,6 +187,7 @@ export const bandsData: Band[] = [
     photo: "/vercel.svg",
     description: "A progressive metal band that pushes the boundaries of heavy music. Their technical prowess and complex compositions have earned them a dedicated following.",
     genre: "Progressive Metal",
+    tags: ["progressive", "metal", "technical", "complex"],
     members: ["1", "3", "5"], // Alex Chen, Marcus Wong, David Kim
     formed: "2024",
     social: {

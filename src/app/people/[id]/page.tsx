@@ -61,9 +61,6 @@ const PersonPage = async ({ params }: PersonPageProps) => {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="absolute top-4 right-4 bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">
-                {person.department}
-              </div>
             </div>
 
             {/* Person Info */}
@@ -81,7 +78,17 @@ const PersonPage = async ({ params }: PersonPageProps) => {
                 </div>
                 <div className="flex items-center gap-2">
                   <MapPin size={20} />
-                  <span>{person.department}</span>
+                  <div className="flex flex-wrap gap-1">
+                    {Array.isArray(person.department) ? (
+                      person.department.map((dept, index) => (
+                        <span key={index} className="bg-primary/20 text-primary px-2 py-1 rounded-md text-sm">
+                          {dept}
+                        </span>
+                      ))
+                    ) : (
+                      <span>{person.department}</span>
+                    )}
+                  </div>
                 </div>
               </div>
 
