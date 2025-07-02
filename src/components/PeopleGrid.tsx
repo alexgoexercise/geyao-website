@@ -2,24 +2,25 @@
 
 import { useState } from "react";
 import { peopleData } from "@/data/people";
-import { Music, Users, Mic, Drum, Guitar, Piano, Settings, MessageSquare, Megaphone } from "lucide-react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMusic, faUsers, faMicrophone, faDrum, faGuitar, faPiano, faCog, faCommentDots, faBullhorn } from '@fortawesome/free-solid-svg-icons';
 import Image from "next/image";
 import Link from "next/link";
 
 const departmentIcons = {
-  "Performer": Music,
-  "Technician": Settings,
-  "Commentator": MessageSquare,
-  "Publicity": Megaphone
+  "Performer": faMusic,
+  "Technician": faCog,
+  "Commentator": faCommentDots,
+  "Publicity": faBullhorn
 };
 
 const roleIcons = {
-  "Guitar": Guitar,
-  "Vocals": Mic,
-  "Drums": Drum,
-  "Piano": Piano,
-  "Violin": Music,
-  "Bass": Guitar,
+  "Guitar": faGuitar,
+  "Vocals": faMicrophone,
+  "Drums": faDrum,
+  "Piano": faPiano,
+  "Violin": faMusic,
+  "Bass": faGuitar,
 };
 
 const PeopleGrid = () => {
@@ -71,7 +72,7 @@ const PeopleGrid = () => {
         {/* Department Filter */}
         <div className="flex flex-wrap justify-center gap-4 mb-12">
           {departments.map((dept) => {
-            const Icon = dept === "all" ? Users : departmentIcons[dept as keyof typeof departmentIcons];
+            const Icon = dept === "all" ? faUsers : departmentIcons[dept as keyof typeof departmentIcons];
             return (
               <button
                 key={dept}
@@ -82,7 +83,7 @@ const PeopleGrid = () => {
                     : "bg-gray-800/50 text-gray-300 hover:bg-gray-700/50 hover:text-white"
                 }`}
               >
-                <Icon size={20} />
+                <FontAwesomeIcon icon={Icon} size="lg" />
                 <span className="capitalize">{dept}</span>
               </button>
             );
@@ -126,7 +127,7 @@ const PeopleGrid = () => {
                         const RoleIcon = roleIcons[role as keyof typeof roleIcons];
                         return (
                           <span key={`role-${index}`} className="flex items-center gap-1 text-sm text-gray-300 bg-gray-700/50 px-3 py-1 rounded-full">
-                            {RoleIcon && <RoleIcon size={14} className="text-primary" />}
+                            {RoleIcon && <FontAwesomeIcon icon={RoleIcon} size="sm" className="text-primary" />}
                             {role}
                           </span>
                         );
@@ -137,7 +138,7 @@ const PeopleGrid = () => {
                         const DeptIcon = departmentIcons[dept as keyof typeof departmentIcons];
                         return (
                           <span key={`dept-${index}`} className="flex items-center gap-1 text-sm text-gray-300 bg-gray-700/50 px-3 py-1 rounded-full">
-                            {DeptIcon && <DeptIcon size={14} className="text-primary" />}
+                            {DeptIcon && <FontAwesomeIcon icon={DeptIcon} size="sm" className="text-primary" />}
                             {dept}
                           </span>
                         );
@@ -153,7 +154,7 @@ const PeopleGrid = () => {
         {/* Empty State */}
         {filteredPeople.length === 0 && (
           <div className="text-center py-12">
-            <Music size={64} className="mx-auto text-gray-600 mb-4" />
+            <FontAwesomeIcon icon={faMusic} size="5x" className="mx-auto text-gray-600 mb-4" />
             <p className="text-gray-400 text-lg">No members found in this department.</p>
           </div>
         )}

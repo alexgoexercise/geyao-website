@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Menu, X, Music } from "lucide-react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBars, faTimes, faMusic } from '@fortawesome/free-solid-svg-icons';
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 
@@ -55,7 +56,7 @@ const Navbar = () => {
               href="/" 
               className="flex items-center gap-2 text-white font-bold text-xl hover:text-primary transition-colors"
             >
-              <Music size={20} />
+              <FontAwesomeIcon icon={faMusic} size="lg" />
               <span>Geyao Music</span>
             </Link>
 
@@ -82,7 +83,7 @@ const Navbar = () => {
               onClick={() => setIsOpen(!isOpen)}
               className="md:hidden p-2 text-gray-300 hover:text-white transition-colors"
             >
-              {isOpen ? <X size={20} /> : <Menu size={20} />}
+              {isOpen ? <FontAwesomeIcon icon={faTimes} size="lg" /> : <FontAwesomeIcon icon={faBars} size="lg" />}
             </button>
           </div>
         </div>

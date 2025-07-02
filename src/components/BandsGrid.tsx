@@ -3,15 +3,17 @@
 import { useState, useMemo, useRef } from "react";
 import { bandsData, Band } from "@/data/bands";
 import { peopleData } from "@/data/people";
-import { Instagram, Youtube, Music, Users, Calendar, Play, Guitar, Mic, Drum, Piano, Music2, X } from "lucide-react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faInstagram, faYoutube, faUsers } from '@fortawesome/free-brands-svg-icons';
+import { faMusic, faCalendar, faPlay, faGuitar, faMicrophone, faDrum, faPiano, faTimes } from '@fortawesome/free-solid-svg-icons';
 import Image from "next/image";
 import Link from "next/link";
 
 const genreIcons = {
   "Rock Fusion": Guitar,
-  "Electronic Pop": Music2,
+  "Electronic Pop": Piano,
   "Classical Crossover": Music,
-  "Jazz Fusion": Mic,
+  "Jazz Fusion": Microphone,
   "Acoustic Folk": Guitar,
   "Progressive Metal": Drum
 };
@@ -150,7 +152,7 @@ const BandsGrid = () => {
                   className="flex items-center gap-1 px-3 py-2 bg-gray-700/50 text-gray-300 rounded-lg hover:bg-gray-600/50 transition-colors text-sm"
                   title="重置"
                 >
-                  <X size={16} />
+                  <FontAwesomeIcon icon={faTimes} size="sm" />
                   重置
                 </button>
               )}
@@ -193,11 +195,11 @@ const BandsGrid = () => {
                       <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-primary transition-colors">{band.name}</h3>
                       <div className="flex items-center gap-4 text-sm text-gray-400 mb-3">
                         <div className="flex items-center gap-1">
-                          <Calendar size={14} />
+                          <FontAwesomeIcon icon={faCalendar} size="sm" className="text-primary" />
                           <span>Formed {band.formed}</span>
                         </div>
                         <div className="flex items-center gap-1">
-                          <Users size={14} />
+                          <FontAwesomeIcon icon={faUsers} size="sm" className="text-primary" />
                           <span>{bandMembers.length}</span>
                         </div>
                       </div>
@@ -214,7 +216,7 @@ const BandsGrid = () => {
                   {/* Members */}
                   <div className="mb-6">
                     <h4 className="text-white font-semibold mb-3 flex items-center gap-2">
-                      <Users size={16} />
+                      <FontAwesomeIcon icon={faUsers} size="sm" className="text-primary" />
                       Members
                     </h4>
                     <div className="flex flex-wrap gap-2">
@@ -242,7 +244,7 @@ const BandsGrid = () => {
                   {/* Videos */}
                   <div className="mb-6">
                     <h4 className="text-white font-semibold mb-3 flex items-center gap-2">
-                      <Play size={16} />
+                      <FontAwesomeIcon icon={faPlay} size="sm" className="text-primary" />
                       Videos
                     </h4>
                     <div className="space-y-2">
@@ -271,7 +273,7 @@ const BandsGrid = () => {
                         }}
                         className="p-2 bg-gray-700/50 rounded-lg hover:bg-primary/20 hover:text-primary transition-all duration-300"
                       >
-                        <Instagram size={16} />
+                        <FontAwesomeIcon icon={faInstagram} size="lg" />
                       </button>
                     )}
                     {band.social.youtube && (
@@ -283,7 +285,7 @@ const BandsGrid = () => {
                         }}
                         className="p-2 bg-gray-700/50 rounded-lg hover:bg-primary/20 hover:text-primary transition-all duration-300"
                       >
-                        <Youtube size={16} />
+                        <FontAwesomeIcon icon={faYoutube} size="lg" />
                       </button>
                     )}
                     {band.social.spotify && (
@@ -295,7 +297,7 @@ const BandsGrid = () => {
                         }}
                         className="p-2 bg-gray-700/50 rounded-lg hover:bg-primary/20 hover:text-primary transition-all duration-300"
                       >
-                        <Music size={16} />
+                        <FontAwesomeIcon icon={faMusic} size="lg" />
                       </button>
                     )}
                   </div>
@@ -308,7 +310,7 @@ const BandsGrid = () => {
         {/* Empty State */}
         {filteredBands.length === 0 && (
           <div className="text-center py-12">
-            <Music size={64} className="mx-auto text-gray-600 mb-4" />
+            <FontAwesomeIcon icon={faMusic} size="5x" className="mx-auto text-gray-600 mb-4" />
             <p className="text-gray-400 text-lg">No bands found in this genre.</p>
           </div>
         )}
