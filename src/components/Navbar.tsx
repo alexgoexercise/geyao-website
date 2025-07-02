@@ -35,7 +35,6 @@ const Navbar = () => {
   const navLinks = [
     { href: "/bands", label: "Bands" },
     { href: "/people", label: "People" },
-    { href: "/videos", label: "Videos" },
     { href: "/events", label: "Events" },
     { href: "/contact", label: "Contact" },
   ];

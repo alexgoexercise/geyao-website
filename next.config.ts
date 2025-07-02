@@ -5,6 +5,41 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizePackageImports: ['lucide-react']
   },
+  // 配置允许的外部图片域名
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'is1-ssl.mzstatic.com',
+        port: '',
+        pathname: '/image/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'is2-ssl.mzstatic.com',
+        port: '',
+        pathname: '/image/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'is3-ssl.mzstatic.com',
+        port: '',
+        pathname: '/image/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'is4-ssl.mzstatic.com',
+        port: '',
+        pathname: '/image/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'is5-ssl.mzstatic.com',
+        port: '',
+        pathname: '/image/**',
+      },
+    ],
+  },
   // 确保视频文件能够正确服务
   async headers() {
     return [

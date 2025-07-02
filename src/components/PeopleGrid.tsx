@@ -1,8 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { peopleData, Person } from "@/data/people";
-import { bandsData } from "@/data/bands";
+import { peopleData } from "@/data/people";
 import { Music, Users, Mic, Drum, Guitar, Piano, Settings, MessageSquare, Megaphone } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -12,6 +11,15 @@ const departmentIcons = {
   "Technician": Settings,
   "Commentator": MessageSquare,
   "Publicity": Megaphone
+};
+
+const roleIcons = {
+  "Guitar": Guitar,
+  "Vocals": Mic,
+  "Drums": Drum,
+  "Piano": Piano,
+  "Violin": Music,
+  "Bass": Guitar,
 };
 
 const PeopleGrid = () => {
@@ -33,8 +41,18 @@ const PeopleGrid = () => {
     )
   ))];
 
-  const getPersonBands = (bandIds: string[]) => {
-    return bandsData.filter(band => bandIds.includes(band.id));
+  const isPerformer = (department: string | string[]) => {
+    if (Array.isArray(department)) {
+      return department.includes("Performer");
+    }
+    return department === "Performer";
+  };
+
+  const getNonPerformerDepartments = (department: string | string[]) => {
+    if (Array.isArray(department)) {
+      return department.filter(dept => dept !== "Performer");
+    }
+    return department === "Performer" ? [] : [department];
   };
 
   return (
@@ -73,75 +91,63 @@ const PeopleGrid = () => {
 
         {/* People Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredPeople.map((person) => {
-            const personBands = getPersonBands(person.bands);
-            return (
-              <Link
-                key={person.id}
-                href={`/people/${person.id}`}
-                className="group relative bg-gray-800/30 backdrop-blur-sm rounded-2xl p-6 border border-gray-700/50 hover:border-primary/50 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-primary/10 cursor-pointer"
-                onMouseEnter={() => setHoveredPerson(person.id)}
-                onMouseLeave={() => setHoveredPerson(null)}
-              >
-                {/* Background Gradient */}
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                
-                {/* Content */}
-                <div className="relative z-10">
-                  {/* Person Photo and Info */}
-                  <div className="flex items-start gap-6 mb-6">
-                    <div className="relative">
-                      <div className="w-24 h-24 rounded-xl overflow-hidden border-2 border-gray-700 group-hover:border-primary/50 transition-colors duration-300">
-                        <Image
-                          src={person.photo}
-                          alt={person.name}
-                          width={96}
-                          height={96}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                    </div>
-                    
-                    <div className="flex-1">
-                      <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-primary transition-colors">{person.name}</h3>
-                      <p className="text-primary font-medium mb-2">{person.role}</p>
-                      <div className="flex items-center gap-2 text-sm text-gray-400 mb-3">
-                        <Users size={14} />
-                        <span>{personBands.length} bands</span>
-                      </div>
+          {filteredPeople.map((person) => (
+            <Link
+              key={person.id}
+              href={`/people/${person.id}`}
+              className="group relative bg-gray-800/30 backdrop-blur-sm rounded-2xl p-6 border border-gray-700/50 hover:border-primary/50 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-primary/10 cursor-pointer"
+              onMouseEnter={() => setHoveredPerson(person.id)}
+              onMouseLeave={() => setHoveredPerson(null)}
+            >
+              {/* Background Gradient */}
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              
+              {/* Content */}
+              <div className="relative z-10">
+                {/* Person Photo and Info */}
+                <div className="flex items-start gap-6 mb-6">
+                  <div className="relative">
+                    <div className="w-24 h-24 rounded-xl overflow-hidden border-2 border-gray-700 group-hover:border-primary/50 transition-colors duration-300">
+                      <Image
+                        src={person.photo}
+                        alt={person.name}
+                        width={96}
+                        height={96}
+                        className="w-full h-full object-cover"
+                      />
                     </div>
                   </div>
-
-                  {/* Bands */}
-                  <div className="mb-6">
-                    <h4 className="text-white font-semibold mb-3 flex items-center gap-2">
-                      <Music size={16} />
-                      Bands
-                    </h4>
+                  
+                  <div className="flex-1">
+                    <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-primary transition-colors">{person.name}</h3>
                     <div className="flex flex-wrap gap-2">
-                      {personBands.map((band) => (
-                        <div
-                          key={band.id}
-                          className="flex items-center gap-2 bg-gray-700/50 px-3 py-1 rounded-full text-sm"
-                        >
-                          <div className="w-4 h-4 rounded-full overflow-hidden">
-                            <Image
-                              src={band.photo}
-                              alt={band.name}
-                              width={16}
-                              height={16}
-                              className="w-full h-full object-cover"
-                            />
-                          </div>
-                          <span className="text-gray-300">{band.name}</span>
-                        </div>
-                      ))}
+                      {/* Show roles for performers */}
+                      {isPerformer(person.department) && person.roles && person.roles.length > 0 && person.roles.map((role, index) => {
+                        const RoleIcon = roleIcons[role as keyof typeof roleIcons];
+                        return (
+                          <span key={`role-${index}`} className="flex items-center gap-1 text-sm text-gray-300 bg-gray-700/50 px-3 py-1 rounded-full">
+                            {RoleIcon && <RoleIcon size={14} className="text-primary" />}
+                            {role}
+                          </span>
+                        );
+                      })}
+                      
+                      {/* Show other departments */}
+                      {getNonPerformerDepartments(person.department).map((dept, index) => {
+                        const DeptIcon = departmentIcons[dept as keyof typeof departmentIcons];
+                        return (
+                          <span key={`dept-${index}`} className="flex items-center gap-1 text-sm text-gray-300 bg-gray-700/50 px-3 py-1 rounded-full">
+                            {DeptIcon && <DeptIcon size={14} className="text-primary" />}
+                            {dept}
+                          </span>
+                        );
+                      })}
                     </div>
                   </div>
                 </div>
-              </Link>
-            );
-          })}
+              </div>
+            </Link>
+          ))}
         </div>
 
         {/* Empty State */}
