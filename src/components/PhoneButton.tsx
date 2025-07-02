@@ -1,6 +1,7 @@
 "use client";
 
-import { Phone } from "lucide-react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPhone } from '@fortawesome/free-solid-svg-icons';
 
 interface PhoneButtonProps {
   phoneNumber: string;
@@ -68,7 +69,7 @@ const PhoneButton = ({ phoneNumber, personName }: PhoneButtonProps) => {
 
   return (
     <div className="flex items-center gap-3 text-gray-300">
-      <Phone size={20} className="text-primary" />
+      <FontAwesomeIcon icon={faPhone} size="2x" className="text-primary" />
       <button
         onClick={handlePhoneClick}
         className="hover:text-white transition-colors cursor-pointer"
