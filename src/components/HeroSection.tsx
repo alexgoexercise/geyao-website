@@ -14,8 +14,7 @@ const HeroSection = () => {
     <section className="h-screen w-full flex items-center justify-center bg-gray-900">
       <div className="relative z-10 bg-gray-800/50 p-8 md:p-12 rounded-lg shadow-2xl backdrop-blur-sm border border-white/10">
         <div className="text-center mb-8">
-            <h1 className="text-4xl md:text-5xl font-bold text-white">Geyao Music</h1>
-            <p className="text-lg text-gray-300 mt-2">Interactive Menu</p>
+            <h1 className="text-4xl md:text-5xl font-postmodern-display text-white tracking-tight">Welcome</h1>
         </div>
         <div className="flex flex-wrap items-center justify-center gap-4 md:gap-8">
           {navLinks.map((link) => (

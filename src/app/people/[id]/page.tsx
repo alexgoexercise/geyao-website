@@ -17,6 +17,7 @@ interface AlbumInfo {
   artist: string;
   artwork?: string;
   loading: boolean;
+  error?: string;
 }
 
 export default function PersonPage({ params }: { params: Promise<PageParams> }) {
@@ -45,25 +46,88 @@ export default function PersonPage({ params }: { params: Promise<PageParams> }) 
     };
   };
 
-  // 从iTunes API获取专辑封面
+  // 从iTunes API获取专辑封面，增强移动端兼容性
   const fetchAlbumArtwork = async (title: string, artist: string): Promise<string | undefined> => {
+    // 创建AbortController用于超时控制
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 4000); // 缩短为4秒超时
+    
     try {
-      const searchTerm = encodeURIComponent(`${title} ${artist}`);
-      const response = await fetch(`https://itunes.apple.com/search?term=${searchTerm}&media=music&entity=album&limit=1`);
-      const data = await response.json();
+      // 尝试多种搜索策略
+      const searchStrategies = [
+        encodeURIComponent(`${title} ${artist}`),
+        encodeURIComponent(title),
+        encodeURIComponent(`${artist} ${title}`)
+      ];
       
-      if (data.results && data.results.length > 0) {
-        // 获取高质量封面 (600x600)
-        const artwork = data.results[0].artworkUrl100?.replace('100x100', '600x600');
-        return artwork;
+      for (const searchTerm of searchStrategies) {
+        try {
+          console.log(`Searching for: ${title} by ${artist}`);
+          
+          const response = await fetch(`https://itunes.apple.com/search?term=${searchTerm}&media=music&entity=album&limit=3`, {
+            signal: controller.signal,
+            headers: {
+              'Accept': 'application/json',
+              'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X)',
+              'Cache-Control': 'max-age=3600',
+            },
+            mode: 'cors',
+          });
+          
+          if (!response.ok) {
+            console.warn(`Search failed with status: ${response.status}`);
+            continue;
+          }
+          
+          const data = await response.json();
+          console.log(`Found ${data.results?.length || 0} results for: ${title}`);
+          
+          if (data.results && data.results.length > 0) {
+            // 寻找最匹配的结果
+            let bestMatch = data.results[0];
+            for (const result of data.results) {
+              if (result.collectionName?.toLowerCase().includes(title.toLowerCase()) ||
+                  result.artistName?.toLowerCase().includes(artist.toLowerCase())) {
+                bestMatch = result;
+                break;
+              }
+            }
+            
+            // 获取合适分辨率的封面（降低分辨率提高加载速度）
+            let artwork = bestMatch.artworkUrl100?.replace('100x100', '200x200');
+            
+            // 确保使用HTTPS
+            if (artwork && artwork.startsWith('http://')) {
+              artwork = artwork.replace('http://', 'https://');
+            }
+            
+            if (artwork) {
+              console.log(`Successfully found artwork for: ${title}`);
+              clearTimeout(timeoutId);
+              return artwork;
+            }
+          }
+        } catch (strategyError) {
+          console.warn(`Search strategy failed for ${searchTerm}:`, strategyError);
+          continue;
+        }
       }
-    } catch (error) {
-      console.error('Error fetching album artwork:', error);
+      
+    } catch (error: any) {
+      if (error.name === 'AbortError') {
+        console.warn(`Album artwork request timed out for: ${title} by ${artist}`);
+      } else {
+        console.error(`Error fetching album artwork for ${title}:`, error);
+      }
+    } finally {
+      clearTimeout(timeoutId);
     }
+    
+    console.warn(`No artwork found for: ${title} by ${artist}`);
     return undefined;
   };
 
-  // 获取所有专辑的封面信息
+  // 获取所有专辑的封面信息，优化移动端体验
   useEffect(() => {
     if (person?.topAlbums) {
       const loadAlbumInfo = async () => {
@@ -78,19 +142,43 @@ export default function PersonPage({ params }: { params: Promise<PageParams> }) 
         
         setAlbumsInfo(albumsData);
 
-        // 并行获取所有专辑封面
-        const updatedAlbums = await Promise.all(
-          albumsData.map(async (album, index) => {
+        // 逐个加载专辑封面，避免移动端过多并发请求
+        const updatedAlbums = [...albumsData];
+        
+        // 限制同时显示的专辑数量，提高移动端性能
+        const maxAlbums = Math.min(albumsData.length, 6);
+        
+        for (let i = 0; i < maxAlbums; i++) {
+          try {
+            const album = albumsData[i];
+            console.log(`Loading album ${i + 1}/${maxAlbums}: ${album.title} by ${album.artist}`);
+            
             const artwork = await fetchAlbumArtwork(album.title, album.artist);
-            return {
+            
+            updatedAlbums[i] = {
               ...album,
               artwork,
               loading: false
             };
-          })
-        );
-
-        setAlbumsInfo(updatedAlbums);
+            
+            // 实时更新UI，提供更好的用户体验
+            setAlbumsInfo([...updatedAlbums]);
+            
+            // 在移动端添加较长延迟，减少网络压力
+            if (i < maxAlbums - 1) {
+              await new Promise(resolve => setTimeout(resolve, 500)); // 增加到500ms
+            }
+            
+          } catch (error) {
+            console.error(`Failed to load artwork for album ${i} (${albumsData[i].title} by ${albumsData[i].artist}):`, error);
+            updatedAlbums[i] = {
+              ...albumsData[i],
+              loading: false,
+              error: error instanceof Error ? error.message : 'Network error'
+            };
+            setAlbumsInfo([...updatedAlbums]);
+          }
+        }
       };
 
       loadAlbumInfo();
@@ -152,7 +240,7 @@ export default function PersonPage({ params }: { params: Promise<PageParams> }) 
 
             {/* Person Info */}
             <div className="lg:w-2/3">
-              <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">{person.name}</h1>
+              <h1 className="text-4xl md:text-6xl font-postmodern-display text-white mb-4 tracking-tight">{person.name}</h1>
               
               <div className="flex flex-wrap items-center gap-6 text-gray-400 mb-6">
                 <div className="flex items-center gap-2">
@@ -164,7 +252,9 @@ export default function PersonPage({ params }: { params: Promise<PageParams> }) 
                         </span>
                       ))
                     ) : (
-                      <span>{person.department}</span>
+                      <span className="bg-primary/20 text-primary px-2 py-1 rounded-md text-sm">
+                        {person.department}
+                      </span>
                     )}
                   </div>
                 </div>
@@ -189,7 +279,7 @@ export default function PersonPage({ params }: { params: Promise<PageParams> }) 
         {/* Musical Roles Section */}
         {person.roles && person.roles.length > 0 && (
           <div className="mb-12">
-            <h2 className="text-3xl font-bold text-white mb-8 flex items-center gap-3">
+            <h2 className="text-3xl font-postmodern-heading text-white mb-8 flex items-center gap-3 tracking-tight">
               <Music2 size={32} />
               Musical Roles
             </h2>
@@ -220,16 +310,16 @@ export default function PersonPage({ params }: { params: Promise<PageParams> }) 
           </div>
         )}
 
-        {/* Top 10 Albums Section */}
+        {/* Top 6 Albums Section */}
         {person.topAlbums && person.topAlbums.length > 0 && (
           <div className="mb-12">
-            <h2 className="text-3xl font-bold text-white mb-8 flex items-center gap-3">
+            <h2 className="text-3xl font-postmodern-heading text-white mb-8 flex items-center gap-3 tracking-tight">
               <Music size={32} />
-              Top 10 Albums
+              Top 6 Albums
             </h2>
             <div className="bg-gray-800/30 backdrop-blur-sm rounded-xl p-6 border border-gray-700/50">
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-                {albumsInfo.slice(0, 10).map((album, index) => (
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                {albumsInfo.slice(0, 6).map((album, index) => (
                   <div key={index} className="group cursor-pointer">
                     <div className="relative aspect-square rounded-lg overflow-hidden bg-gray-700/50 mb-3 group-hover:scale-105 transition-transform duration-200">
                       {/* 排名标签 */}
@@ -250,11 +340,31 @@ export default function PersonPage({ params }: { params: Promise<PageParams> }) 
                           width={300}
                           height={300}
                           className="w-full h-full object-cover group-hover:brightness-110 transition-all duration-200"
+                          loading="lazy"
+                          placeholder="blur"
+                          blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkrHB0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+ss9VhQdSrxnH7B8n7B8n7"
                           onError={(e) => {
+                            console.warn('Failed to load album artwork, using fallback');
                             // 如果图片加载失败，显示默认图片
-                            e.currentTarget.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDMwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjMzc0MTUxIi8+CjxwYXRoIGQ9Ik0xNTAgNzVDMTI0LjI4IDc1IDEwMyA5Ni4yOCAxMDMgMTIyVjE3OEMxMDMgMjAzLjcyIDEyNC4yOCAyMjUgMTUwIDIyNUMxNzUuNzIgMjI1IDE5NyAyMDMuNzIgMTk3IDE3OFYxMjJDMTk3IDk2LjI4IDE3NS43MiA3NSAxNTAgNzVaIiBmaWxsPSIjNkI3MjgwIi8+CjxjaXJjbGUgY3g9IjE1MCIgY3k9IjE1MCIgcj0iMzAiIGZpbGw9IiM5Q0E0QUYiLz4KPC9zdmc+';
+                            const target = e.currentTarget as HTMLImageElement;
+                            target.style.display = 'none';
+                            const parent = target.parentElement;
+                            if (parent && !parent.querySelector('.fallback-icon')) {
+                              const fallbackDiv = document.createElement('div');
+                              fallbackDiv.className = 'w-full h-full bg-gray-600/50 flex items-center justify-center fallback-icon';
+                              fallbackDiv.innerHTML = '<svg class="w-10 h-10 text-gray-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zM11 8a1 1 0 112 0v4a1 1 0 11-2 0V8z" clip-rule="evenodd"></path></svg>';
+                              parent.appendChild(fallbackDiv);
+                            }
                           }}
                         />
+                      ) : album.error ? (
+                        /* 错误状态 */
+                        <div className="w-full h-full bg-red-900/30 flex flex-col items-center justify-center p-2">
+                          <X size={20} className="text-red-400 mb-1" />
+                          <span className="text-xs text-red-400 text-center">
+                            {album.error.includes('timeout') ? 'Network timeout' : 'Load failed'}
+                          </span>
+                        </div>
                       ) : (
                         /* 默认音乐图标 */
                         <div className="w-full h-full bg-gray-600/50 flex items-center justify-center">
@@ -279,25 +389,14 @@ export default function PersonPage({ params }: { params: Promise<PageParams> }) 
           </div>
         )}
 
-        {/* Dream Section */}
+        {/* Casual Talk Section */}
         <div className="mb-12">
-          <h2 className="text-3xl font-bold text-white mb-8 flex items-center gap-3">
-            <Play size={32} />
-            Future Dream
+          <h2 className="text-3xl font-postmodern-heading text-white mb-8 flex items-center gap-3 tracking-tight">
+            <MessageCircle size={32} />
+            Just Saying...
           </h2>
           <div className="bg-gray-800/30 backdrop-blur-sm rounded-xl p-6 border border-gray-700/50">
-            <p className="text-gray-300 text-lg">{person.dream}</p>
-          </div>
-        </div>
-
-        {/* Dislike Section */}
-        <div className="mb-12">
-          <h2 className="text-3xl font-bold text-white mb-8 flex items-center gap-3">
-            <X size={32} />
-            Pet Peeve
-          </h2>
-          <div className="bg-gray-800/30 backdrop-blur-sm rounded-xl p-6 border border-gray-700/50">
-            <p className="text-gray-300 text-lg">{person.dislike}</p>
+            <p className="text-gray-300 text-lg italic font-postmodern-body">"{person.casualTalk}"</p>
           </div>
         </div>
 

@@ -10,25 +10,81 @@ interface BubbleProps {
 }
 
 const Bubble: React.FC<BubbleProps> = ({ bubble, onClick }) => {
-  // Icon size is 45% of bubble size, min 20, max 48
-  const iconSize = Math.max(20, Math.min(48, Math.round((bubble.size || 80) * 0.45)));
+  const bubbleSize = bubble.size || 80;
+  
+  // Icon size is 45% of bubble size, with responsive limits
+  // For small bubbles (3x3 grid), allow smaller icons
+  const minIconSize = Math.max(16, bubbleSize * 0.25); // Minimum 25% of bubble size, at least 16px
+  const maxIconSize = Math.max(24, bubbleSize * 0.6);  // Maximum 60% of bubble size, at least 24px
+  const iconSize = Math.max(minIconSize, Math.min(maxIconSize, Math.round(bubbleSize * 0.45)));
 
   return (
     <motion.div
-      className={`absolute cursor-pointer transition-all duration-500 ${bubble.isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-150'}`}
-      style={{
+      className={`absolute cursor-pointer group ${bubble.isVisible ? 'opacity-100' : 'opacity-0 scale-150'}`}
+      initial={{
+        left: '50%',
+        top: '90%', // Start from "Contact Us" text center (accounting for padding and text height)
+        x: -bubbleSize / 2,
+        y: -bubbleSize / 2,
+        scale: 0,
+        opacity: 0,
+      }}
+      animate={{
         left: `${bubble.x}%`,
         top: `${bubble.y}%`,
-        width: bubble.size,
-        height: bubble.size,
-        animation: bubble.isVisible ? `float ${bubble.animationDuration}s ease-in-out ${bubble.animationDelay}s infinite alternate` : 'none',
+        x: -bubbleSize / 2,
+        y: -bubbleSize / 2,
+        scale: bubble.isVisible ? 1 : 0,
+        opacity: bubble.isVisible ? 1 : 0,
+      }}
+      transition={{
+        duration: 0.6,
+        delay: bubble.animationDelay || 0,
+        ease: 'easeOut',
+        type: 'spring',
+        stiffness: 120,
+        damping: 12,
+      }}
+      style={{
+        width: bubbleSize,
+        height: bubbleSize,
+        zIndex: 10,
       }}
       onClick={() => onClick(bubble)}
+      onMouseEnter={(e) => {
+        // 停止float动画 - 找到内层的动画元素
+        const animatedDiv = e.currentTarget.querySelector('.float-animation') as HTMLElement;
+        if (animatedDiv) {
+          animatedDiv.style.animationPlayState = 'paused';
+        }
+      }}
+      onMouseLeave={(e) => {
+        // 恢复float动画 - 找到内层的动画元素
+        const animatedDiv = e.currentTarget.querySelector('.float-animation') as HTMLElement;
+        if (animatedDiv) {
+          animatedDiv.style.animationPlayState = 'running';
+        }
+      }}
     >
+      {/* Actual bubble with animation */}
       <div
-        className={`relative flex items-center justify-center hover:scale-110 transition-all duration-300 group ${getBubbleClass(bubble)}`}
-        style={{ width: bubble.size, height: bubble.size, opacity: 0.85 }}
+        className="absolute float-animation"
+        style={{
+          left: '0px', // No offset needed since container matches bubble size
+          top: '0px',
+          width: bubbleSize,
+          height: bubbleSize,
+          animation: bubble.isVisible ? `float ${bubble.animationDuration}s ease-in-out ${(bubble.animationDelay || 0) + 0.6}s infinite alternate` : 'none',
+        }}
       >
+        <div
+          className={`relative flex items-center justify-center hover:scale-105 transition-all duration-200 ease-out ${getBubbleClass(bubble)}`}
+          style={{ 
+            width: bubbleSize, 
+            height: bubbleSize, 
+            opacity: 0.85,
+          }}
+        >
         {/* Bubble shine/highlight */}
         <div
           className="absolute left-[10%] top-[10%] w-[80%] h-[45%] rounded-full pointer-events-none"
@@ -53,21 +109,22 @@ const Bubble: React.FC<BubbleProps> = ({ bubble, onClick }) => {
             src="/icons/bilibili.svg"
             alt="Bilibili"
             style={{ width: iconSize, height: iconSize }}
-            className="group-hover:scale-125 transition-transform duration-300"
+            className="icon-vibrate"
           />
         ) : bubble.id === 'xiaohongshu' ? (
           <img
             src="/icons/xiaohongshu.svg"
             alt="Xiaohongshu"
             style={{ width: iconSize, height: iconSize }}
-            className="group-hover:scale-125 transition-transform duration-300"
+            className="icon-vibrate"
           />
         ) : (
-          <FontAwesomeIcon icon={bubble.icon} style={{ width: iconSize, height: iconSize }} className="text-white group-hover:scale-125 transition-transform duration-300" />
+          <FontAwesomeIcon icon={bubble.icon} style={{ width: iconSize, height: iconSize }} className="text-white icon-vibrate" />
         )}
         {/* Platform Name */}
-        <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-black/80 backdrop-blur-sm text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
+        <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-black/80 backdrop-blur-sm text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-out whitespace-nowrap z-50">
           {bubble.platform}
+        </div>
         </div>
       </div>
     </motion.div>

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { peopleData } from "@/data/people";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMusic, faUsers, faMicrophone, faDrum, faGuitar, faPiano, faCog, faCommentDots, faBullhorn } from '@fortawesome/free-solid-svg-icons';
+import { faMusic, faUsers, faMicrophone, faDrum, faGuitar, faCog, faCommentDots, faBullhorn } from '@fortawesome/free-solid-svg-icons';
 import Image from "next/image";
 import Link from "next/link";
 
@@ -18,7 +18,7 @@ const roleIcons = {
   "Guitar": faGuitar,
   "Vocals": faMicrophone,
   "Drums": faDrum,
-  "Piano": faPiano,
+  "Piano": faMusic,
   "Violin": faMusic,
   "Bass": faGuitar,
 };
@@ -61,12 +61,9 @@ const PeopleGrid = () => {
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">
+          <h1 className="text-4xl md:text-6xl font-postmodern-display text-white mb-4 tracking-tight">
             Meet Our Team
           </h1>
-          <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-            Talented musicians and passionate creators who bring Geyao Music to life
-          </p>
         </div>
 
         {/* Department Filter */}
@@ -120,7 +117,7 @@ const PeopleGrid = () => {
                   </div>
                   
                   <div className="flex-1">
-                    <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-primary transition-colors">{person.name}</h3>
+                    <h3 className="text-2xl font-postmodern-heading text-white mb-2 group-hover:text-primary transition-colors tracking-tight">{person.name}</h3>
                     <div className="flex flex-wrap gap-2">
                       {/* Show roles for performers */}
                       {isPerformer(person.department) && person.roles && person.roles.length > 0 && person.roles.map((role, index) => {

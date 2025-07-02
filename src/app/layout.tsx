@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
-import { Manrope } from "next/font/google";
+import { Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import LayoutWrapper from "@/components/LayoutWrapper";
 
-const manrope = Manrope({ 
+const spaceGrotesk = Space_Grotesk({ 
   subsets: ["latin"],
-  weight: ["300", "400", "500", "700"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-space-grotesk",
 });
 
 export const metadata: Metadata = {
@@ -20,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark scroll-smooth">
-      <body className={manrope.className}>
+      <body className={`${spaceGrotesk.className} ${spaceGrotesk.variable}`}>
         <LayoutWrapper>{children}</LayoutWrapper>
       </body>
     </html>

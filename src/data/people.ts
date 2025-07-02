@@ -21,9 +21,8 @@ export interface Person {
     instagram: string;
     telegram: string;
   };
-  dream: string;
-  dislike: string;
-  topAlbums: string[]; // Top 10 favorite albums
+  casualTalk: string; // Random thoughts/casual talk
+  topAlbums: string[]; // Top 6 favorite albums
 }
 
 export const peopleData: Person[] = [
@@ -49,19 +48,14 @@ export const peopleData: Person[] = [
       instagram: "@default",
       telegram: "@lhmFZ"
     },
-    dream: "创建一个融合中西方音乐元素的世界级乐队",
-    dislike: "过于商业化的音乐制作",
+    casualTalk: "Music is like cooking - you need the right ingredients, perfect timing, and a bit of improvisation to create something magical. Also, I collect vintage guitar picks from around the world!",
     topAlbums: [
       "Dark Side of the Moon - Pink Floyd",
       "Abbey Road - The Beatles",
       "Led Zeppelin IV - Led Zeppelin",
       "OK Computer - Radiohead",
       "Hotel California - Eagles",
-      "Stairway to Heaven - Led Zeppelin",
-      "Bohemian Rhapsody - Queen",
-      "Wish You Were Here - Pink Floyd",
-      "The Wall - Pink Floyd",
-      "Rumours - Fleetwood Mac"
+      "Stairway to Heaven - Led Zeppelin"
     ]
   },
   {
@@ -86,19 +80,14 @@ export const peopleData: Person[] = [
       instagram: "@default",
       telegram: "@lhmFZ"
     },
-    dream: "在世界著名音乐厅举办个人演唱会",
-    dislike: "失去嗓音的恐惧",
+    casualTalk: "I believe every song has its own personality. Sometimes I spend hours just humming melodies to my plants - they're surprisingly good listeners and never complain about my experimenting!",
     topAlbums: [
       "21 - Adele",
       "Back to Black - Amy Winehouse",
       "The Miseducation of Lauryn Hill - Lauryn Hill",
       "Lemonade - Beyoncé",
       "Blue - Joni Mitchell",
-      "Tapestry - Carole King",
-      "What's Love Got to Do with It - Tina Turner",
-      "I Never Loved a Man - Aretha Franklin",
-      "Songs in A Minor - Alicia Keys",
-      "Whitney Houston - Whitney Houston"
+      "Tapestry - Carole King"
     ]
   },
   {
@@ -123,19 +112,14 @@ export const peopleData: Person[] = [
       instagram: "@default",
       telegram: "@lhmFZ"
     },
-    dream: "开发革命性的电子鼓技术",
-    dislike: "单调重复的节奏模式",
+    casualTalk: "Life is all about rhythm - from your heartbeat to your morning coffee routine. I find drum patterns everywhere, even in the sound of rain on windows. My neighbors probably think I'm crazy!",
     topAlbums: [
       "In the Air Tonight - Phil Collins",
       "When the Levee Breaks - Led Zeppelin",
       "Bonham - John Bonham",
       "Bleed - Meshuggah",
       "Tom Sawyer - Rush",
-      "Moby Dick - Led Zeppelin",
-      "YYZ - Rush",
-      "The Art of Dying - Gojira",
-      "Toxicity - System of a Down",
-      "Chop Suey! - System of a Down"
+      "Moby Dick - Led Zeppelin"
     ]
   },
   {
@@ -160,19 +144,14 @@ export const peopleData: Person[] = [
       instagram: "@default",
       telegram: "@lhmFZ"
     },
-    dream: "创作一部以贝斯为主角的交响乐",
-    dislike: "被忽视贝斯手的重要性",
+    casualTalk: "Bass lines are like the foundation of a house - you don't always notice them, but everything falls apart without them. I also have a secret obsession with 80s synth-pop!",
     topAlbums: [
       "Hysteria - Muse",
       "The Wall - Pink Floyd",
       "Moving Pictures - Rush",
       "Blood Sugar Sex Magik - Red Hot Chili Peppers",
       "Animals - Pink Floyd",
-      "Portrait of Tracy - Jaco Pastorius",
-      "The Dark Side of the Moon - Pink Floyd",
-      "Primus Sucks - Primus",
-      "Teen Town - Weather Report",
-      "Tommy the Cat - Primus"
+      "Portrait of Tracy - Jaco Pastorius"
     ]
   },
   {
@@ -197,19 +176,14 @@ export const peopleData: Person[] = [
       instagram: "@default",
       telegram: "@lhmFZ"
     },
-    dream: "开发一款革命性的音乐合成器",
-    dislike: "过时的MIDI设备",
+    casualTalk: "I think synthesizers are time machines - they can transport you to the 80s, the future, or somewhere completely otherworldly. My studio is basically a spaceship with too many blinking lights!",
     topAlbums: [
       "Discovery - Daft Punk",
       "Random Access Memories - Daft Punk",
       "Kraftwerk - Computer World",
       "Oxygène - Jean-Michel Jarre",
       "Blade Runner Soundtrack - Vangelis",
-      "Ambient 1: Music for Airports - Brian Eno",
-      "Selected Ambient Works - Aphex Twin",
-      "Yoshida Daikiti - Vangelis",
-      "Homework - Daft Punk",
-      "The Man-Machine - Kraftwerk"
+      "Ambient 1: Music for Airports - Brian Eno"
     ]
   },
   {
@@ -234,19 +208,14 @@ export const peopleData: Person[] = [
       instagram: "@default",
       telegram: "@lhmFZ"
     },
-    dream: "将古典小提琴与现代音乐完美融合",
-    dislike: "对小提琴的刻板印象",
+    casualTalk: "People think classical music is stuffy, but it's actually full of drama, passion, and rebellion. Plus, my violin has traveled more countries than most people I know!",
     topAlbums: [
       "Four Seasons - Vivaldi",
       "Bach: Violin Concertos - Bach",
       "Paganini: 24 Caprices - Paganini",
       "Tchaikovsky: Violin Concerto - Tchaikovsky",
       "Brahms: Violin Concerto - Brahms",
-      "Mendelssohn: Violin Concerto - Mendelssohn",
-      "Mozart: Violin Sonatas - Mozart",
-      "Beethoven: Violin Sonatas - Beethoven",
-      "Sibelius: Violin Concerto - Sibelius",
-      "Prokofiev: Violin Concertos - Prokofiev"
+      "Mendelssohn: Violin Concerto - Mendelssohn"
     ]
   },
   {
@@ -271,19 +240,14 @@ export const peopleData: Person[] = [
       instagram: "@default",
       telegram: "@lhmFZ"
     },
-    dream: "建立一个影响力巨大的音乐评论平台",
-    dislike: "缺乏深度的音乐评论",
+    casualTalk: "Good music criticism is like being a translator between artists and audiences. Also, I have an embarrassing weakness for cheesy 90s pop ballads - don't judge me!",
     topAlbums: [
       "Pet Sounds - The Beach Boys",
       "Sgt. Pepper's - The Beatles",
       "What's Going On - Marvin Gaye",
       "Revolver - The Beatles",
       "Highway 61 Revisited - Bob Dylan",
-      "Rubber Soul - The Beatles",
-      "What's Going On - Marvin Gaye",
-      "The Velvet Underground & Nico - The Velvet Underground",
-      "Abbey Road - The Beatles",
-      "Are You Experienced - Jimi Hendrix"
+      "Rubber Soul - The Beatles"
     ]
   },
   {
@@ -308,19 +272,14 @@ export const peopleData: Person[] = [
       instagram: "@default",
       telegram: "@lhmFZ"
     },
-    dream: "让更多人了解并热爱独立音乐",
-    dislike: "虚假的营销手段",
+    casualTalk: "PR is like being a professional storyteller - every band has an amazing story, you just need to find the right way to tell it. I collect vintage concert posters from the 70s!",
     topAlbums: [
       "1989 - Taylor Swift",
       "25 - Adele",
       "Lemonade - Beyoncé",
       "folklore - Taylor Swift",
       "When We All Fall Asleep - Billie Eilish",
-      "Thank U, Next - Ariana Grande",
-      "Future Nostalgia - Dua Lipa",
-      "Sour - Olivia Rodrigo",
-      "Positions - Ariana Grande",
-      "evermore - Taylor Swift"
+      "Thank U, Next - Ariana Grande"
     ]
   },
   {
@@ -345,19 +304,14 @@ export const peopleData: Person[] = [
       instagram: "@default",
       telegram: "@lhmFZ"
     },
-    dream: "成为最受欢迎的音乐活动主持人",
-    dislike: "冷场的尴尬气氛",
+    casualTalk: "Being an MC is like being a bridge between the stage and the audience. I practice my introductions in the shower - my rubber duck gives the best feedback!",
     topAlbums: [
       "Live at Wembley - Queen",
       "MTV Unplugged - Nirvana",
       "Live Aid - Various Artists",
       "Woodstock - Various Artists",
       "The Last Waltz - The Band",
-      "Live at Fillmore East - Allman Brothers",
-      "Stop Making Sense - Talking Heads",
-      "Live in Concert - Bob Marley",
-      "Unplugged in New York - Nirvana",
-      "One More Time - Daft Punk"
+      "Live at Fillmore East - Allman Brothers"
     ]
   },
   {
@@ -382,19 +336,14 @@ export const peopleData: Person[] = [
       instagram: "@default",
       telegram: "@lhmFZ"
     },
-    dream: "打造病毒式传播的音乐内容",
-    dislike: "算法限制创意表达",
+    casualTalk: "Social media is like jazz - it's all about improvisation and reading the room. I have a secret Instagram account where I post pictures of dogs I meet on the street!",
     topAlbums: [
       "Anti - Rihanna",
       "Blonde - Frank Ocean",
       "Ctrl - SZA",
       "Good Kid, M.A.A.D City - Kendrick Lamar",
       "Channel Orange - Frank Ocean",
-      "To Pimp a Butterfly - Kendrick Lamar",
-      "Lorde - Pure Heroine",
-      "The Weeknd - After Hours",
-      "Solange - When I Get Home",
-      "Tyler, The Creator - Igor"
+      "To Pimp a Butterfly - Kendrick Lamar"
     ]
   },
   {
@@ -419,19 +368,14 @@ export const peopleData: Person[] = [
       instagram: "@default",
       telegram: "@lhmFZ"
     },
-    dream: "开发完美的音响系统",
-    dislike: "糟糕的音质和设备故障",
+    casualTalk: "Perfect sound is invisible - when I do my job right, nobody notices me. I also build custom speakers in my garage and test them way too loud for my neighbors' liking!",
     topAlbums: [
       "The Dark Side of the Moon - Pink Floyd",
       "OK Computer - Radiohead",
       "Pet Sounds - The Beach Boys",
       "Abbey Road - The Beatles",
       "Kind of Blue - Miles Davis",
-      "Aja - Steely Dan",
-      "Random Access Memories - Daft Punk",
-      "Thriller - Michael Jackson",
-      "Rumours - Fleetwood Mac",
-      "The Wall - Pink Floyd"
+      "Aja - Steely Dan"
     ]
   },
   {
@@ -456,19 +400,14 @@ export const peopleData: Person[] = [
       instagram: "@default",
       telegram: "@lhmFZ"
     },
-    dream: "创造令人难忘的视觉体验",
-    dislike: "单调乏味的舞台设计",
+    casualTalk: "Lighting is the secret sauce that transforms a performance from good to magical. I see the world in color temperatures - my friends think I'm weird for noticing every light bulb!",
     topAlbums: [
       "The Wall - Pink Floyd",
+      "The Joshua Tree - U2",
+      "OK Computer - Radiohead",
       "Dark Side of the Moon - Pink Floyd",
-      "U2 - The Joshua Tree",
-      "Radiohead - Kid A",
-      "Björk - Homogenic",
-      "Nine Inch Nails - The Downward Spiral",
-      "David Bowie - The Rise and Fall of Ziggy Stardust",
-      "Genesis - The Lamb Lies Down on Broadway",
-      "King Crimson - In the Court of the Crimson King",
-      "Yes - Close to the Edge"
+      "Led Zeppelin IV - Led Zeppelin",
+      "Thriller - Michael Jackson"
     ]
   }
 ]; 

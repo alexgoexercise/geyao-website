@@ -18,10 +18,11 @@ const Navbar = () => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
       
-      if (currentScrollY > lastScrollY && currentScrollY > 100) {
-        // Scrolling down & past 100px
+      // 更敏感的滚动检测：只要向下滚动超过10px就隐藏
+      if (currentScrollY > lastScrollY && currentScrollY > 10) {
+        // Scrolling down & past 10px
         setIsVisible(false);
-      } else {
+      } else if (currentScrollY < lastScrollY) {
         // Scrolling up
         setIsVisible(true);
       }
@@ -54,7 +55,7 @@ const Navbar = () => {
             {/* Logo */}
             <Link 
               href="/" 
-              className="flex items-center gap-2 text-white font-bold text-xl hover:text-primary transition-colors"
+              className="flex items-center gap-2 text-white font-postmodern-heading text-xl hover:text-primary transition-colors tracking-tight"
             >
               <FontAwesomeIcon icon={faMusic} size="lg" />
               <span>Geyao Music</span>

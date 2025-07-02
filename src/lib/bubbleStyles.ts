@@ -26,9 +26,39 @@ export function getBubbleClass(bubble: SocialBubble) {
   let border = '';
   if (bubble.variant === 'bordered') border = 'border-4 border-white/40';
   if (bubble.variant === 'doubleborder') border = 'border-4 border-white/60 ring-4 ring-primary/30';
-  // Pulse
-  let pulse = bubble.variant === 'pulse' ? 'animate-pulse' : '';
+  // Pulse - use custom pulse class if we have custom timing
+  let pulse = '';
+  if (bubble.variant === 'pulse') {
+    if (bubble.pulseDelay !== undefined && bubble.pulseDuration !== undefined) {
+      pulse = `custom-pulse-${bubble.id}`;
+    } else {
+      pulse = 'animate-pulse';
+    }
+  }
   // Glow/shadow
   let shadow = bubble.glow ? `shadow-2xl ${bubble.glow}` : 'shadow-2xl';
   return `${base} ${shape} ${border} ${pulse} ${shadow}`;
+}
+
+export function getCustomPulseStyles(bubbles: SocialBubble[]) {
+  return bubbles.map(bubble => {
+    if (bubble.variant === 'pulse' && bubble.pulseDelay !== undefined && bubble.pulseDuration !== undefined) {
+      return `
+        .custom-pulse-${bubble.id} {
+          animation: pulse-${bubble.id} ${bubble.pulseDuration}s ease-in-out ${bubble.pulseDelay}s infinite;
+        }
+        @keyframes pulse-${bubble.id} {
+          0%, 100% {
+            opacity: 0.85;
+            transform: scale(1);
+          }
+          50% {
+            opacity: 1;
+            transform: scale(1.05);
+          }
+        }
+      `;
+    }
+    return '';
+  }).join('\n');
 } 

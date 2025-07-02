@@ -8,6 +8,8 @@ export interface SocialBubble {
   baseSize?: number;
   glow?: string;
   gradientType?: 'linear' | 'radial' | 'solid';
+  pulseDelay?: number;
+  pulseDuration?: number;
   x: number;
   y: number;
   animationDuration: number;
