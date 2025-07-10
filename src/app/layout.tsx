@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import LayoutWrapper from "@/components/LayoutWrapper";
+import FontAwesomeProvider from './FontAwesomeProvider';
 
 const spaceGrotesk = Space_Grotesk({ 
   subsets: ["latin"],
@@ -22,6 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark scroll-smooth">
       <body className={`${spaceGrotesk.className} ${spaceGrotesk.variable}`}>
+        <FontAwesomeProvider />
         <LayoutWrapper>{children}</LayoutWrapper>
       </body>
     </html>
