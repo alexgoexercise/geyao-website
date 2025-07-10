@@ -23,10 +23,13 @@ const ContactPage = () => {
 
   // Generate random positions and animations, keeping bubbles fully in viewport and responsive
   const generateBubbles = useCallback(() => {
-    const width = typeof window !== 'undefined' ? window.innerWidth : 375;
+    // Only generate bubbles on the client to avoid hydration mismatch
+    if (typeof window === 'undefined') return;
+    
+    const width = window.innerWidth;
     // Use visual viewport if available for better mobile experience
-    const visualViewport = typeof window !== 'undefined' && window.visualViewport;
-    let height = typeof window !== 'undefined' ? window.innerHeight : 667;
+    const visualViewport = window.visualViewport;
+    let height = window.innerHeight;
     
     // For mobile, use visual viewport height if available and smaller than window height
     if (visualViewport && width < 640) {
@@ -298,7 +301,7 @@ const ContactPage = () => {
 
 
   return (
-    <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 relative overflow-hidden" 
+    <div suppressHydrationWarning className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 relative overflow-hidden" 
          style={{ height: '100dvh', minHeight: '100vh' }}>
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
