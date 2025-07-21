@@ -1,8 +1,13 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
+import { X } from "lucide-react";
+import { GENERAL_RECRUITMENT_NEEDS } from '@/data/recruitmentNeeds';
 
 const HeroSection = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const navLinks = [
     { href: "/bands", label: "Bands" },
     { href: "/people", label: "People" },
@@ -13,9 +18,22 @@ const HeroSection = () => {
   return (
     <section className="h-screen w-full flex items-center justify-center bg-gray-900">
       <div className="relative z-10 bg-gray-800/50 p-8 md:p-12 rounded-lg shadow-2xl backdrop-blur-sm border border-white/10">
+        {/* Join Us 右上角斜着的彩色文字 */}
+        <div className="absolute -top-2 -right-2 transform rotate-12">
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="animate-ping-custom transition-all duration-300 cursor-pointer focus:outline-none focus:ring-4 focus:ring-purple-500/50 rounded-lg p-3"
+          >
+            <span className="font-join-us">
+              Join Us
+            </span>
+          </button>
+        </div>
+
         <div className="text-center mb-8">
             <h1 className="text-4xl md:text-5xl font-postmodern-display text-white tracking-tight">Welcome</h1>
         </div>
+        
         <div className="flex flex-wrap items-center justify-center gap-4 md:gap-8">
           {navLinks.map((link) => (
             <Link
@@ -29,6 +47,46 @@ const HeroSection = () => {
           ))}
         </div>
       </div>
+
+      {/* 弹窗 */}
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="bg-gray-800 rounded-xl p-8 max-w-2xl w-full mx-4 relative border border-gray-700 shadow-2xl max-h-[90vh] overflow-y-auto">
+            <button
+              onClick={() => setIsModalOpen(false)}
+              className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
+            >
+              <X size={24} />
+            </button>
+            
+            <div className="text-center mb-6">
+              <h2 className="text-3xl font-bold text-white mb-4 font-postmodern-display">
+                Join Us
+              </h2>
+              <p className="text-gray-300 font-postmodern-body">
+                欢迎加入我们的音乐社团！
+              </p>
+            </div>
+            
+            <div className="space-y-6">
+              {/* 总招聘需求 */}
+              <div className="bg-gray-900/50 rounded-lg p-6">
+                <pre className="text-gray-300 whitespace-pre-wrap text-sm leading-relaxed">
+                  {GENERAL_RECRUITMENT_NEEDS}
+                </pre>
+              </div>
+              
+              {/* 其他页面的提示 */}
+              <div className="bg-yellow-900/20 rounded-lg p-6 border border-yellow-600/30">
+                <p className="text-yellow-300 text-sm font-medium">
+                  💡 直选渠道请前往个人页面或乐队页面
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
     </section>
   );
 };

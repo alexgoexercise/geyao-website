@@ -16,4 +16,6 @@ export interface SocialBubble {
   animationDelay: number;
   isVisible: boolean;
   size?: number;
+  animationType?: string;
+  floatDelay?: number;
 } 

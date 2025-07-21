@@ -1,9 +1,9 @@
 export interface Person {
   id: string;
   name: string;
-  photo: string;
-  description: string;
-  contact: {
+  photo?: string;
+  description?: string;
+  contact?: {
     email?: string;
     phone?: string;
     social?: {
@@ -12,307 +12,204 @@ export interface Person {
       linkedin?: string;
     };
   };
-  role: string;
-  roles: string[];
-  department: string | string[];
-  bands: string[]; // Array of band IDs
-  social: {
-    wechat: string;
-    instagram: string;
-    telegram: string;
+  role?: string;
+  roles?: string[];
+  department?: string | string[];
+  bands?: string[]; // Array of band IDs
+  social?: {
+    wechat?: string;
+    instagram?: string;
+    telegram?: string;
   };
-  casualTalk: string; // Random thoughts/casual talk
-  topAlbums: string[]; // Top 6 favorite albums
+  casualTalk?: string; // Random thoughts/casual talk
+  topAlbums?: string[]; // Top 6 favorite albums
+  recruitmentNeeds?: string; // What they need to recruit for their projects/collaborations
 }
 
 export const peopleData: Person[] = [
   {
     id: "1",
-    name: "Alex Chen",
-    photo: "/hero-background.jpg",
-    description: "Lead guitarist and founding member of Geyao Music. Passionate about creating innovative soundscapes that blend traditional Chinese music with modern rock elements.",
-    contact: {
-      email: "alex.chen@geyao.edu",
-      phone: "+65 9123 4567",
-      social: {
-        instagram: "@alexchen_music",
-        twitter: "@alexchen_geyao"
-      }
-    },
-    role: "Lead Guitarist",
-    roles: ["Guitar", "Vocals"],
-    department: ["Performer", "Technician"],
-    bands: ["1", "4", "6"], // Band 1, Band 4, Band 6
+    name: "Ge Siyuan",
+    photo: "/photos/Ge_Siyuan.jpeg",
+    roles: ["Guitar"],
+    department: ["Performer"],
     social: {
-      wechat: "/qr-codes/alex-chen-wechat.svg",
-      instagram: "@default",
-      telegram: "@lhmFZ"
+      wechat: "/qr-codes/collection.png",
+      instagram: "Sh1ki_i",
+      telegram: "@Sh1ki_i"
     },
-    casualTalk: "Music is like cooking - you need the right ingredients, perfect timing, and a bit of improvisation to create something magical. Also, I collect vintage guitar picks from around the world!",
+    casualTalk: "I extremely hate mandopop. Actually listen to hip-hop more than band music.",
     topAlbums: [
-      "Dark Side of the Moon - Pink Floyd",
-      "Abbey Road - The Beatles",
-      "Led Zeppelin IV - Led Zeppelin",
-      "OK Computer - Radiohead",
-      "Hotel California - Eagles",
-      "Stairway to Heaven - Led Zeppelin"
-    ]
+      "Rust in Peace - Megadeth",
+      "Periphery III",
+      "Around the Fur - Deftones",
+      "Augment - Erra",
+      "A Great Chaos - Ken Carson",
+      "Whole Lotta Red - Playboi Carti"
+    ],
+    recruitmentNeeds: "Looking for a metal drummer and a singer. Contact me for direct audition."
   },
   {
     id: "2",
-    name: "Sarah Lim",
-    photo: "/globe.svg",
-    description: "Vocalist with a powerful voice that can range from soulful ballads to energetic pop anthems. Specializes in vocal arrangement and harmony coaching.",
-    contact: {
-      email: "sarah.lim@geyao.edu",
-      phone: "+65 9234 5678",
-      social: {
-        instagram: "@sarahlim_vocalist",
-        linkedin: "sarah-lim-music"
-      }
-    },
-    role: "Lead Vocalist",
-    roles: ["Vocals", "Piano"],
-    department: "Performer",
-    bands: ["1", "2", "5"], // Band 1, Band 2, Band 5
+    name: "Wang Qiulin | 大岛老师",
+    photo: "/photos/Wang_Qiulin.jpg",
+    roles: ["Keys"],
+    department: ["Performer"],
+    bands: ["1"],
     social: {
-      wechat: "/qr-codes/sarah-lim-wechat.svg",
-      instagram: "@default",
-      telegram: "@lhmFZ"
+      wechat: "/qr-codes/collection.png",
+      telegram: "@JuliantheWang"
     },
-    casualTalk: "I believe every song has its own personality. Sometimes I spend hours just humming melodies to my plants - they're surprisingly good listeners and never complain about my experimenting!",
+    casualTalk: "An INFJ whom can be found drinking coffee or alcohol most of the time, while listening to anything other than pop music 99% of the time.",
     topAlbums: [
-      "21 - Adele",
-      "Back to Black - Amy Winehouse",
-      "The Miseducation of Lauryn Hill - Lauryn Hill",
-      "Lemonade - Beyoncé",
-      "Blue - Joni Mitchell",
-      "Tapestry - Carole King"
-    ]
+      "丑奴儿 - 草东没有派对",
+      "瓦合 - 草东没有派对",
+      "Go Slow - deca joins",
+      "Chopin: Piano Concertos No.1 & 2 - Polish Festial Orchestra, Krystian Zimerman",
+      "吾日三省吾身 - 老王乐队",
+      "Opus - Ryuichi Sakamoto"
+    ],
+    recruitmentNeeds: "I am looking for a good electric bassist / double bass player to work on some jazz genres. Contact me for direct audition."
   },
   {
     id: "3",
-    name: "Marcus Wong",
-    photo: "/file.svg",
-    description: "Drummer and percussion specialist. Brings dynamic rhythms and creative beats to every performance. Also handles sound engineering and production.",
-    contact: {
-      email: "marcus.wong@geyao.edu",
-      phone: "+65 9345 6789",
-      social: {
-        instagram: "@marcus_drums",
-        twitter: "@marcus_geyao"
-      }
-    },
-    role: "Drummer",
-    roles: ["Drums"],
-    department: ["Performer", "Technician"],
-    bands: ["1", "4", "6"], // Band 1, Band 4, Band 6
+    name: "Zhao Jiajun | PointLeZzZ",
+    photo: "/photos/Zhao_Jiajun.jpeg",
+    roles: ["Rap"],
+    department: ["Performer"],
+    bands: ["2"],
     social: {
-      wechat: "/qr-codes/marcus-wong-wechat.svg",
-      instagram: "@default",
-      telegram: "@lhmFZ"
+      wechat: "/qr-codes/collection.png",
     },
-    casualTalk: "Life is all about rhythm - from your heartbeat to your morning coffee routine. I find drum patterns everywhere, even in the sound of rain on windows. My neighbors probably think I'm crazy!",
-    topAlbums: [
-      "In the Air Tonight - Phil Collins",
-      "When the Levee Breaks - Led Zeppelin",
-      "Bonham - John Bonham",
-      "Bleed - Meshuggah",
-      "Tom Sawyer - Rush",
-      "Moby Dick - Led Zeppelin"
-    ]
   },
   {
     id: "4",
-    name: "Emma Tan",
-    photo: "/window.svg",
-    description: "Bassist and music theory expert. Provides the foundation for our sound while also contributing to songwriting and arrangement.",
-    contact: {
-      email: "emma.tan@geyao.edu",
-      phone: "+65 9456 7890",
-      social: {
-        instagram: "@emma_bass",
-        linkedin: "emma-tan-music"
-      }
-    },
-    role: "Bassist",
-    roles: ["Bass", "Guitar"],
+    name: "赵李修齐",
+    photo: "/photos/Zhao_Lixiuqi.jpg",
+    roles: ["Drums", "Bass"],
     department: "Performer",
-    bands: ["3", "4"], // Band 3, Band 4
+    bands: ["3", "4"],
     social: {
-      wechat: "/qr-codes/emma-tan-wechat.svg",
-      instagram: "@default",
-      telegram: "@lhmFZ"
+      wechat: "/qr-codes/collection.png",
+      instagram: "alex_go_sleep",
+      telegram: "@alexgosleep"
     },
-    casualTalk: "Bass lines are like the foundation of a house - you don't always notice them, but everything falls apart without them. I also have a secret obsession with 80s synth-pop!",
+    casualTalk: "V我50",
     topAlbums: [
-      "Hysteria - Muse",
-      "The Wall - Pink Floyd",
-      "Moving Pictures - Rush",
-      "Blood Sugar Sex Magik - Red Hot Chili Peppers",
-      "Animals - Pink Floyd",
-      "Portrait of Tracy - Jaco Pastorius"
-    ]
+      "David Tao (陶喆同名专辑)",
+      "15",
+      "Appetite For Destruction",
+      "Voodoo",
+      "Slipknot",
+      "阿密特意识专辑"
+    ],
   },
   {
     id: "5",
-    name: "David Kim",
-    photo: "/next.svg",
+    name: "Nie Xinyi Cynthia | 麻薯猫Moko",
+    photo: "/photos/Nie_Xinyi.jpg",
     description: "Keyboardist and electronic music producer. Specializes in synthesizers and digital music production, bringing modern electronic elements to our sound.",
-    contact: {
-      email: "david.kim@geyao.edu",
-      phone: "+65 9567 8901",
-      social: {
-        instagram: "@davidkim_keys",
-        twitter: "@david_geyao"
-      }
-    },
-    role: "Keyboardist",
-    roles: ["Piano", "Vocals"],
-    department: ["Performer", "Technician"],
-    bands: ["2", "6"], // Band 2, Band 6
+    roles: ["Violin"],
+    department: ["Performer"],
+    bands: ["5"],
     social: {
-      wechat: "/qr-codes/david-kim-wechat.svg",
-      instagram: "@default",
-      telegram: "@lhmFZ"
+      wechat: "/qr-codes/collection.png",
+      instagram: "sinncxynie",
+      telegram: "@sinncxynie"
     },
-    casualTalk: "I think synthesizers are time machines - they can transport you to the 80s, the future, or somewhere completely otherworldly. My studio is basically a spaceship with too many blinking lights!",
+    casualTalk: "🌙",
     topAlbums: [
-      "Discovery - Daft Punk",
-      "Random Access Memories - Daft Punk",
-      "Kraftwerk - Computer World",
-      "Oxygène - Jean-Michel Jarre",
-      "Blade Runner Soundtrack - Vangelis",
-      "Ambient 1: Music for Airports - Brian Eno"
-    ]
+      "Biitersweet - Polyphia",
+      "河北墨麒麟 - 万能青年旅店",
+      "Stairway to Heaven - Led Zeppelin",
+      "Only One - Natural TV",
+      "Sacred Play Secret Place - Matryoshika",
+      "Merry Christmas Mr. Lawence - 坂本龙一"
+    ],
   },
   {
     id: "6",
-    name: "Lisa Zhang",
-    photo: "/vercel.svg",
-    description: "Violinist and classical music specialist. Brings elegance and sophistication to our performances with her mastery of both classical and contemporary violin techniques.",
-    contact: {
-      email: "lisa.zhang@geyao.edu",
-      phone: "+65 9678 9012",
-      social: {
-        instagram: "@lisa_violin",
-        linkedin: "lisa-zhang-violin"
-      }
-    },
-    role: "Violinist",
-    roles: ["Violin", "Piano"],
+    name: "Li Yitong | Nat",
+    photo: "/photos/Li_Yitong.jpeg",
+    roles: ["Bass"],
     department: "Performer",
-    bands: ["3", "5"], // Band 3, Band 5
+    bands: ["6"],
     social: {
-      wechat: "/qr-codes/lisa-zhang-wechat.svg",
-      instagram: "@default",
-      telegram: "@lhmFZ"
+      wechat: "/qr-codes/collection.png",
+      instagram: "natalietangli",
+      telegram: "@whoisnatalieee"
     },
-    casualTalk: "People think classical music is stuffy, but it's actually full of drama, passion, and rebellion. Plus, my violin has traveled more countries than most people I know!",
+    casualTalk: "I like metal guitarists :3",
     topAlbums: [
-      "Four Seasons - Vivaldi",
-      "Bach: Violin Concertos - Bach",
-      "Paganini: 24 Caprices - Paganini",
-      "Tchaikovsky: Violin Concerto - Tchaikovsky",
-      "Brahms: Violin Concerto - Brahms",
-      "Mendelssohn: Violin Concerto - Mendelssohn"
-    ]
+      "Blackwater Park - Opeth",
+      "Fatalism - Polaris",
+      "The Chosen - Enterprise Earth",
+      "Killers - Iron Maiden",
+      "In Utero - Nirvana",
+      "Ultraviolence - Lana Del Rey"
+    ],
+    recruitmentNeeds: "Looking for a metal drummer who can play fast double kicks. Contact me for direct audition."
   },
   {
     id: "7",
-    name: "Michael Chang",
-    photo: "/hero-background.jpg",
-    description: "Music critic and commentator with extensive experience in analyzing musical performances and providing insightful commentary on various genres and styles.",
-    contact: {
-      email: "michael.chang@geyao.edu",
-      phone: "+65 9789 0123",
-      social: {
-        instagram: "@michael_music_critic",
-        twitter: "@mchang_commentary"
-      }
-    },
-    role: "Music Critic",
-    roles: [],
-    department: ["Commentator", "Publicity"],
-    bands: ["1", "2", "3", "4", "5", "6"], // All bands
+    name: "Yang Haorui",
+    photo: "/photos/Yang_Haorui.jpeg",
+    roles: ["Guitar"],
+    department: "Performer",
     social: {
-      wechat: "/qr-codes/michael-chang-wechat.svg",
-      instagram: "@default",
-      telegram: "@lhmFZ"
+      wechat: "/qr-codes/collection.png",
+      instagram: "Howbayy",
+      telegram: "@bhuio612"
     },
-    casualTalk: "Good music criticism is like being a translator between artists and audiences. Also, I have an embarrassing weakness for cheesy 90s pop ballads - don't judge me!",
     topAlbums: [
-      "Pet Sounds - The Beach Boys",
-      "Sgt. Pepper's - The Beatles",
-      "What's Going On - Marvin Gaye",
-      "Revolver - The Beatles",
-      "Highway 61 Revisited - Bob Dylan",
-      "Rubber Soul - The Beatles"
-    ]
+      "Bold as love",
+      "Cascade",
+      "T&C"
+    ],
   },
   {
     id: "8",
-    name: "Jennifer Lee",
-    photo: "/globe.svg",
-    description: "Public relations specialist and marketing coordinator. Handles media relations, event promotion, and brand management for Geyao Music.",
-    contact: {
-      email: "jennifer.lee@geyao.edu",
-      phone: "+65 9890 1234",
-      social: {
-        instagram: "@jen_publicity",
-        linkedin: "jennifer-lee-pr"
-      }
-    },
-    role: "PR Specialist",
-    roles: [],
-    department: "Publicity",
-    bands: ["1", "2", "3", "4", "5", "6"], // All bands
+    name: "Wu Xiangjiekang | Mes",
+    photo: "/photos/Wu_Xiangjiekang.jpeg",
+    roles: ["Drums"],
+    department: ["Performer"],
+    bands: ["5"],
     social: {
-      wechat: "/qr-codes/jennifer-lee-wechat.svg",
-      instagram: "@default",
-      telegram: "@lhmFZ"
+      wechat: "/qr-codes/collection.png",
+      instagram: "mes_kieran",
+      telegram: "@MesKieran"
     },
-    casualTalk: "PR is like being a professional storyteller - every band has an amazing story, you just need to find the right way to tell it. I collect vintage concert posters from the 70s!",
+    casualTalk: "intj",
     topAlbums: [
-      "1989 - Taylor Swift",
-      "25 - Adele",
-      "Lemonade - Beyoncé",
-      "folklore - Taylor Swift",
-      "When We All Fall Asleep - Billie Eilish",
-      "Thank U, Next - Ariana Grande"
-    ]
+      "丑奴儿",
+      "瓦合",
+      "1989",
+      "冀西南林路行",
+      "Bow Down",
+    ],
   },
   {
     id: "9",
-    name: "Robert Tan",
-    photo: "/file.svg",
-    description: "Event commentator and MC for live performances. Specializes in engaging audiences and providing context for musical performances.",
-    contact: {
-      email: "robert.tan@geyao.edu",
-      phone: "+65 9901 2345",
-      social: {
-        instagram: "@robert_mc",
-        twitter: "@robert_commentator"
-      }
-    },
-    role: "Event MC",
-    roles: [],
-    department: "Commentator",
-    bands: ["1", "2", "3", "4", "5", "6"], // All bands
+    name: "Lu Haomeng",
+    photo: "/photos/Lu_Haomeng.JPG",
+    roles: ["Keys"],
+    department: ["Performer", "Technician"],
+    bands: ["5", "7"],
     social: {
-      wechat: "/qr-code-default.svg",
-      instagram: "@default",
+      wechat: "/qr-codes/collection.png",
+      instagram: "lhhhhhhhhhhhhm",
       telegram: "@lhmFZ"
     },
-    casualTalk: "Being an MC is like being a bridge between the stage and the audience. I practice my introductions in the shower - my rubber duck gives the best feedback!",
+    casualTalk: "我是奶龙",
     topAlbums: [
-      "Live at Wembley - Queen",
-      "MTV Unplugged - Nirvana",
-      "Live Aid - Various Artists",
-      "Woodstock - Various Artists",
-      "The Last Waltz - The Band",
-      "Live at Fillmore East - Allman Brothers"
-    ]
+      "相见恨晚 - 腰",
+      "谬误与偏见 - 古田小伙",
+      "无能的力量 - 崔健",
+      "The Death Defying Unicorn - Motorpsycho",
+      "Larks' Tongues in Aspic - King Crimson",
+      "B-2 Unit - Ryuichi Sakamoto"
+    ],
+    recruitmentNeeds: "招一个玩电子音乐与合成器，想长期玩的。直接私信我就好。"
   },
   {
     id: "10",
@@ -344,7 +241,8 @@ export const peopleData: Person[] = [
       "Good Kid, M.A.A.D City - Kendrick Lamar",
       "Channel Orange - Frank Ocean",
       "To Pimp a Butterfly - Kendrick Lamar"
-    ]
+    ],
+    recruitmentNeeds: "Seeking content creators who can produce short-form video content for TikTok and Instagram Reels, and social media influencers for cross-promotional collaborations. Also need copywriters for engaging social media captions and blog posts."
   },
   {
     id: "11",
@@ -376,7 +274,8 @@ export const peopleData: Person[] = [
       "Abbey Road - The Beatles",
       "Kind of Blue - Miles Davis",
       "Aja - Steely Dan"
-    ]
+    ],
+    recruitmentNeeds: "Looking for assistant sound engineers to help with live sound setup and mixing, and audio equipment technicians for maintenance and repairs. Interested in collaborating with musicians on experimental audio projects and soundscape compositions."
   },
   {
     id: "12",
@@ -408,6 +307,7 @@ export const peopleData: Person[] = [
       "Dark Side of the Moon - Pink Floyd",
       "Led Zeppelin IV - Led Zeppelin",
       "Thriller - Michael Jackson"
-    ]
+    ],
+    recruitmentNeeds: "Seeking lighting designers with experience in concert and theatrical lighting, and stage assistants for equipment setup and management. Looking for visual artists to create immersive stage experiences and collaborate on multimedia performances."
   }
 ]; 

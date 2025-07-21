@@ -12,205 +12,152 @@ export interface Band {
     youtube?: string;
     spotify?: string;
   };
-  videos: {
-    title: string;
+  googleDrive: {
     url: string;
-    thumbnail?: string;
-    duration: string;
-  }[];
+    description: string;
+  };
+  recruitmentNeeds?: string; // What the band needs to recruit for their performances/projects
 }
 
 export const bandsData: Band[] = [
   {
     id: "1",
-    name: "Band 1",
+    name: "One Minute",
     photo: "/hero-background.jpg",
     description: "A dynamic rock ensemble that blends traditional Chinese melodies with modern rock elements. Known for their energetic live performances and innovative soundscapes.",
     genre: "Rock Fusion",
     tags: ["rock", "fusion", "chinese", "modern"],
-    members: ["1", "2", "3"], // Alex Chen, Sarah Lim, Marcus Wong
+    members: ["2"],
     formed: "2022",
     social: {
       instagram: "@band1_official",
       youtube: "Band1Official",
       spotify: "Band 1"
     },
-    videos: [
-      {
-        title: "Live Performance at School Concert",
-        url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-        duration: "3:45"
-      },
-      {
-        title: "Rehearsal Session - New Song",
-        url: "https://www.youtube.com/watch?v=9bZkp7q19f0",
-        duration: "2:30"
-      },
-      {
-        title: "Acoustic Version - Coffee House",
-        url: "https://www.youtube.com/watch?v=kJQP7kiw5Fk",
-        duration: "4:12"
-      }
-    ]
+    googleDrive: {
+      url: "https://drive.google.com/drive/folders/1Band1_RockFusion_Recordings",
+      description: "包含现场演出录音、排练录像、原创作品和音乐制作素材"
+    },
+    recruitmentNeeds: "Looking for a keyboardist to add rich harmonic layers to our rock fusion sound, and a backup vocalist who can handle both lead and harmony parts. Also seeking a merchandise manager for our upcoming tour."
   },
   {
     id: "2",
-    name: "Band 2",
+    name: "MADreamers",
     photo: "/globe.svg",
     description: "An electronic-pop group that creates immersive sound experiences through synthesizers and digital production. Their music transcends traditional boundaries.",
     genre: "Electronic Pop",
     tags: ["electronic", "pop", "synth", "digital"],
-    members: ["5", "2"], // David Kim, Sarah Lim
+    members: ["3"],
     formed: "2023",
     social: {
       instagram: "@band2_electronic",
       youtube: "Band2Electronic",
       spotify: "Band 2"
     },
-    videos: [
-      {
-        title: "Electronic Pop Showcase",
-        url: "https://www.youtube.com/watch?v=ZZ5LpwO-An4",
-        duration: "3:20"
-      },
-      {
-        title: "Studio Recording Session",
-        url: "https://www.youtube.com/watch?v=YykjpeuMNEk",
-        duration: "5:15"
-      },
-      {
-        title: "Live DJ Set at Party",
-        url: "https://www.youtube.com/watch?v=OPf0YbXqDm0",
-        duration: "6:30"
-      }
-    ]
+    googleDrive: {
+      url: "https://drive.google.com/drive/folders/2Band2_ElectronicPop_Productions",
+      description: "电子音乐制作文件、DJ Set录音、合成器音效库和视觉艺术素材"
+    },
+    recruitmentNeeds: "Seeking a drummer who can integrate electronic beats with live percussion, and a visual artist for creating synchronized light shows during performances. Also looking for a remix engineer to help with track production."
   },
   {
     id: "3",
-    name: "Band 3",
+    name: "水泥幻象",
     photo: "/file.svg",
     description: "A classical crossover ensemble that brings together traditional string instruments with contemporary arrangements. Elegant and sophisticated performances.",
     genre: "Classical Crossover",
     tags: ["classical", "crossover", "strings", "contemporary"],
-    members: ["6", "4"], // Lisa Zhang, Emma Tan
+    members: ["4"], // Lisa Zhang, Emma Tan
     formed: "2021",
     social: {
       instagram: "@band3_classical",
       youtube: "Band3Classical",
       spotify: "Band 3"
     },
-    videos: [
-      {
-        title: "Classical Crossover Concert",
-        url: "https://www.youtube.com/watch?v=YQHsXMglC9A",
-        duration: "4:45"
-      },
-      {
-        title: "String Quartet Performance",
-        url: "https://www.youtube.com/watch?v=8jLOx1hD3_o",
-        duration: "3:55"
-      },
-      {
-        title: "Modern Classical Fusion",
-        url: "https://www.youtube.com/watch?v=9cQlVww0zKo",
-        duration: "5:20"
-      }
-    ]
+    googleDrive: {
+      url: "https://drive.google.com/drive/folders/3Band3_ClassicalCrossover_Scores",
+      description: "古典交叉风格乐谱、弦乐四重奏录音、音乐会演出视频和编曲作品"
+    },
+    recruitmentNeeds: "Looking for a pianist specializing in classical and contemporary styles, and a cellist to complete our string ensemble. Also seeking a classical music arranger to help adapt popular songs into our crossover format."
   },
   {
     id: "4",
-    name: "Band 4",
+    name: "余香肉丝",
     photo: "/window.svg",
     description: "A jazz fusion quartet that explores the boundaries between traditional jazz and modern improvisation. Known for their complex harmonies and rhythmic innovation.",
     genre: "Jazz Fusion",
     tags: ["jazz", "fusion", "improvisation", "harmony"],
-    members: ["4", "3", "1"], // Emma Tan, Marcus Wong, Alex Chen
+    members: ["4"],
     formed: "2023",
     social: {
       instagram: "@band4_jazz",
       youtube: "Band4Jazz",
       spotify: "Band 4"
     },
-    videos: [
-      {
-        title: "Jazz Fusion Night",
-        url: "https://www.youtube.com/watch?v=JGwWNGJdvx8",
-        duration: "4:30"
-      },
-      {
-        title: "Smooth Jazz Session",
-        url: "https://www.youtube.com/watch?v=09R8_2nJtjg",
-        duration: "3:40"
-      },
-      {
-        title: "Jazz Improvisation",
-        url: "https://www.youtube.com/watch?v=YVkUvmDQ3HY",
-        duration: "7:15"
-      }
-    ]
+    googleDrive: {
+      url: "https://drive.google.com/drive/folders/4Band4_JazzFusion_Sessions",
+      description: "爵士融合即兴演奏录音、和声练习素材、节奏创新实验和现场演出记录"
+    },
+    recruitmentNeeds: "Seeking a saxophone player with strong improvisation skills and a pianist who understands jazz harmony and chord progressions. Also looking for a jazz vocalist for our upcoming album project."
   },
   {
     id: "5",
-    name: "Band 5",
+    name: "安得万全法",
     photo: "/next.svg",
     description: "An acoustic folk group that tells stories through music. Their intimate performances and heartfelt lyrics create deep connections with audiences.",
     genre: "Acoustic Folk",
     tags: ["acoustic", "folk", "storytelling", "intimate"],
-    members: ["2", "6"], // Sarah Lim, Lisa Zhang
+    members: ["5", "8", "9"],
     formed: "2022",
     social: {
       instagram: "@band5_folk",
       youtube: "Band5Folk",
       spotify: "Band 5"
     },
-    videos: [
-      {
-        title: "Acoustic Folk Session",
-        url: "https://www.youtube.com/watch?v=1G4isv_Fylg",
-        duration: "3:25"
-      },
-      {
-        title: "Campfire Songs",
-        url: "https://www.youtube.com/watch?v=w1oM3kQpXRo",
-        duration: "4:10"
-      },
-      {
-        title: "Folk Storytelling",
-        url: "https://www.youtube.com/watch?v=UptuU1T3y-c",
-        duration: "5:45"
-      }
-    ]
+    googleDrive: {
+      url: "https://drive.google.com/drive/folders/5Band5_AcousticFolk_Stories",
+      description: "民谣歌曲录音、原创故事歌词、吉他指弹教学和篝火音乐会记录"
+    },
+    recruitmentNeeds: "Looking for an acoustic guitarist who can fingerpick and play in various tunings, and a harmonica player for authentic folk sound. Also seeking a songwriter who specializes in folk narratives and storytelling."
   },
   {
     id: "6",
-    name: "Band 6",
+    name: "きっと、いつか幸せに",
     photo: "/vercel.svg",
     description: "A progressive metal band that pushes the boundaries of heavy music. Their technical prowess and complex compositions have earned them a dedicated following.",
     genre: "Progressive Metal",
     tags: ["progressive", "metal", "technical", "complex"],
-    members: ["1", "3", "5"], // Alex Chen, Marcus Wong, David Kim
+    members: ["6"],
     formed: "2024",
     social: {
       instagram: "@band6_metal",
       youtube: "Band6Metal",
       spotify: "Band 6"
     },
-    videos: [
-      {
-        title: "Progressive Metal Show",
-        url: "https://www.youtube.com/watch?v=QH2-TGUlwu4",
-        duration: "6:20"
-      },
-      {
-        title: "Heavy Metal Rehearsal",
-        url: "https://www.youtube.com/watch?v=LPn0KFlbqX8",
-        duration: "4:35"
-      },
-      {
-        title: "Metal Guitar Solo",
-        url: "https://www.youtube.com/watch?v=0jgrCKhxE1s",
-        duration: "3:50"
-      }
-    ]
+    googleDrive: {
+      url: "https://drive.google.com/drive/folders/6Band6_ProgressiveMetal_Compositions",
+      description: "前卫金属作品录音、技术性演奏教学、复杂编曲文件和重金属演出视频"
+    },
+    recruitmentNeeds: "Looking for a bassist who can handle complex progressive compositions and odd time signatures, and a second guitarist for intricate dual-guitar arrangements. Also seeking a metal vocalist with both clean and harsh vocal capabilities."
+  },
+  {
+    id: "7",
+    name: "Mission Hidden",
+    photo: "/vercel.svg",
+    description: "A progressive metal band that pushes the boundaries of heavy music. Their technical prowess and complex compositions have earned them a dedicated following.",
+    genre: "Progressive Metal",
+    tags: ["progressive", "metal", "technical", "complex"],
+    members: ["9"],
+    formed: "2024",
+    social: {
+      instagram: "@band6_metal",
+      youtube: "Band6Metal",
+      spotify: "Band 6"
+    },
+    googleDrive: {
+      url: "https://drive.google.com/drive/folders/6Band6_ProgressiveMetal_Compositions",
+      description: "前卫金属作品录音、技术性演奏教学、复杂编曲文件和重金属演出视频"
+    },
+    recruitmentNeeds: "Looking for a bassist who can handle complex progressive compositions and odd time signatures, and a second guitarist for intricate dual-guitar arrangements. Also seeking a metal vocalist with both clean and harsh vocal capabilities."
   }
 ]; 

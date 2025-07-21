@@ -177,7 +177,6 @@ const BandsGrid = () => {
                             />
                           </div>
                           <span className="text-gray-300">{member.name}</span>
-                          <span className="text-primary text-xs">({member.role})</span>
                         </div>
                       ))}
                     </div>

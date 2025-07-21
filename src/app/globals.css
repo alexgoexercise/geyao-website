@@ -180,4 +180,126 @@
     font-variant-numeric: tabular-nums;
     font-feature-settings: "ss01" on, "ss02" on;
   }
+
+  /* 引人注目的Join Us字体样式 */
+  .font-join-us {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 900;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #ffeaa7, #fd79a8);
+    background-size: 400% 400%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradient-shift 3s ease infinite;
+    text-shadow: 0 0 30px rgba(147, 51, 234, 0.7), 0 0 60px rgba(147, 51, 234, 0.5), 0 0 100px rgba(147, 51, 234, 0.3);
+  }
+
+  @media (min-width: 768px) {
+    .font-join-us {
+      font-size: 2rem;
+    }
+  }
+
+  @keyframes gradient-shift {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  /* Custom z-index for Join Us button */
+  .z-60 {
+    z-index: 60;
+  }
+
+  /* Animation for Join Us button */
+  @keyframes ping-custom {
+    0% {
+      transform: scale(1) rotate(12deg);
+    }
+    50% {
+      transform: scale(1.4) rotate(12deg);
+    }
+    100% {
+      transform: scale(1) rotate(12deg);
+    }
+  }
+  
+  .animate-ping-custom {
+    animation: ping-custom 3s ease-in-out infinite;
+  }
+  
+  .animate-ping-custom:hover {
+    animation-play-state: paused;
+    transform: scale(1.25) rotate(12deg) !important;
+  }
+
+  /* Contact Page Bubble Animations */
+  @keyframes float {
+    0% {
+      transform: translateY(0px) translateX(0px) rotate(0deg);
+    }
+    25% {
+      transform: translateY(-25px) translateX(20px) rotate(3deg);
+    }
+    50% {
+      transform: translateY(-15px) translateX(-25px) rotate(-2deg);
+    }
+    75% {
+      transform: translateY(-35px) translateX(15px) rotate(3deg);
+    }
+    100% {
+      transform: translateY(0px) translateX(0px) rotate(0deg);
+    }
+  }
+
+  @keyframes floatMobile {
+    0% {
+      transform: translateY(0px) translateX(0px) rotate(0deg);
+    }
+    25% {
+      transform: translateY(-15px) translateX(10px) rotate(2deg);
+    }
+    50% {
+      transform: translateY(-10px) translateX(-12px) rotate(-1deg);
+    }
+    75% {
+      transform: translateY(-20px) translateX(8px) rotate(2deg);
+    }
+    100% {
+      transform: translateY(0px) translateX(0px) rotate(0deg);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .float-animation {
+      animation-name: floatMobile !important;
+    }
+  }
+
+  @keyframes iconVibrate {
+    0%, 100% {
+      transform: translateX(0px) translateY(0px) rotate(0deg);
+    }
+    25% {
+      transform: translateX(2px) translateY(-1px) rotate(1deg);
+    }
+    50% {
+      transform: translateX(-2px) translateY(1px) rotate(-1deg);
+    }
+    75% {
+      transform: translateX(1px) translateY(-2px) rotate(0.5deg);
+    }
+  }
+
+  .group:hover .icon-vibrate {
+    animation: iconVibrate 0.3s ease-in-out infinite;
+  }
 }

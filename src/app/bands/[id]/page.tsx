@@ -1,9 +1,14 @@
+"use client";
+
 import { notFound } from "next/navigation";
 import { bandsData } from "@/data/bands";
 import { peopleData } from "@/data/people";
-import { Instagram, Youtube, Music, Users, Calendar, Play, ArrowLeft, Heart, Share2, Clock, ExternalLink, Guitar, Mic, Piano, Drum } from "lucide-react";
+import { Instagram, Youtube, Music, Users, Calendar, Play, ArrowLeft, Heart, Share2, Clock, ExternalLink, Guitar, Mic, Piano, Drum, X, FolderOpen, Download } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
+import React from "react";
+import { GENERAL_RECRUITMENT_NEEDS } from "@/data/recruitmentNeeds";
 
 interface BandPageProps {
   params: Promise<{
@@ -11,8 +16,9 @@ interface BandPageProps {
   }>;
 }
 
-const BandPage = async ({ params }: BandPageProps) => {
-  const { id } = await params;
+const BandPage = ({ params }: BandPageProps) => {
+  const [isJoinUsModalOpen, setIsJoinUsModalOpen] = useState(false);
+  const { id } = React.use(params);
   const band = bandsData.find(b => b.id === id);
   
   if (!band) {
@@ -173,73 +179,107 @@ const BandPage = async ({ params }: BandPageProps) => {
           </div>
         </div>
 
-        {/* Videos Section */}
-        {band.videos && band.videos.length > 0 && (
-          <div className="mb-12">
-            <div className="flex items-center justify-between mb-8">
-              <h2 className="text-3xl font-bold text-white flex items-center gap-3">
-                <Play size={32} />
-                Performance Videos
-              </h2>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {band.videos.map((video, index) => (
+        {/* Google Drive Section */}
+        <div className="mb-12">
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-3xl font-bold text-white flex items-center gap-3">
+              <FolderOpen size={32} />
+              乐队作品集
+            </h2>
+          </div>
+          <div className="bg-gray-800/30 backdrop-blur-sm rounded-xl p-8 border border-gray-700/50 hover:border-primary/50 transition-all duration-300">
+            <div className="flex flex-col md:flex-row items-start gap-6">
+              {/* Google Drive Icon */}
+              <div className="flex-shrink-0">
+                <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-green-500 rounded-xl flex items-center justify-center">
+                  <FolderOpen size={32} className="text-white" />
+                </div>
+              </div>
+              
+              {/* Content */}
+              <div className="flex-1">
+                <h3 className="text-2xl font-bold text-white mb-6">Google Drive 作品库</h3>
+                
+                {/* Access Button */}
                 <a
-                  key={index}
-                  href={video.url}
+                  href={band.googleDrive.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group bg-gray-800/30 backdrop-blur-sm rounded-xl overflow-hidden border border-gray-700/50 hover:border-primary/50 transition-all duration-300 hover:scale-105"
+                  className="inline-flex items-center gap-3 bg-primary hover:bg-primary/80 text-white font-semibold px-6 py-3 rounded-lg transition-all duration-300 hover:scale-105 shadow-lg"
                 >
-                  {/* Video Thumbnail */}
-                  <div className="relative aspect-video bg-gray-700/50">
-                    {video.thumbnail ? (
-                      <Image
-                        src={video.thumbnail}
-                        alt={video.title}
-                        width={300}
-                        height={200}
-                        className="w-full h-full object-cover"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-700 to-gray-900">
-                        <Play className="w-12 h-12 text-gray-400" />
-                      </div>
-                    )}
-                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                      <div className="w-16 h-16 bg-primary/80 rounded-full flex items-center justify-center group-hover:bg-primary transition-colors">
-                        <Play size={24} className="text-white ml-1" />
-                      </div>
-                    </div>
-                    <div className="absolute bottom-2 right-2 bg-black/70 text-white px-2 py-1 rounded text-sm">
-                      {video.duration}
-                    </div>
-                    <div className="absolute top-2 right-2 bg-black/70 text-white p-1 rounded">
-                      <ExternalLink size={16} />
-                    </div>
-                  </div>
-                  
-                  {/* Video Info */}
-                  <div className="p-4">
-                    <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-primary transition-colors line-clamp-2">
-                      {video.title}
-                    </h3>
-                    <div className="flex items-center justify-between text-xs text-gray-500">
-                      <div className="flex items-center gap-1">
-                        <Clock size={14} />
-                        <span>{video.duration}</span>
-                      </div>
-                      <span className="bg-red-500/20 text-red-300 px-2 py-1 rounded text-xs">
-                        YouTube
-                      </span>
-                    </div>
-                  </div>
+                  <Download size={20} />
+                  访问 Google Drive
+                  <ExternalLink size={16} />
                 </a>
-              ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* 固定位置的Join Us按钮 */}
+        <div className="fixed top-20 right-4 z-60">
+          <button
+            onClick={() => setIsJoinUsModalOpen(true)}
+            className="animate-ping-custom transition-all duration-300 cursor-pointer focus:outline-none focus:ring-4 focus:ring-purple-500/50 rounded-lg p-2 md:p-3 transform rotate-12"
+          >
+            <span className="font-join-us">
+              Join Us
+            </span>
+          </button>
+        </div>
+
+        {/* Join Us Modal */}
+        {isJoinUsModalOpen && (
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+            <div className="bg-gray-800 rounded-xl p-8 max-w-2xl w-full mx-4 relative border border-gray-700 shadow-2xl max-h-[90vh] overflow-y-auto">
+              <button
+                onClick={() => setIsJoinUsModalOpen(false)}
+                className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
+              >
+                <X size={24} />
+              </button>
+              
+              <div className="text-center mb-6">
+                <h2 className="text-3xl font-bold text-white mb-4 font-postmodern-display">
+                  Join Us
+                </h2>
+                <p className="text-gray-300 font-postmodern-body">
+                  欢迎加入我们的音乐社团！
+                </p>
+              </div>
+              
+              <div className="space-y-6">
+                {/* 乐队招聘需求 */}
+                {band.recruitmentNeeds && band.recruitmentNeeds.trim() ? (
+                  <div className="bg-primary/10 rounded-lg p-6 border border-primary/20">
+                    <h3 className="text-xl font-bold text-primary mb-3">
+                      {band.name} 的招聘需求
+                    </h3>
+                    <p className="text-gray-300 text-sm">
+                      {band.recruitmentNeeds}
+                    </p>
+                  </div>
+                ) : (
+                  <div className="bg-gray-700/20 rounded-lg p-6 border border-gray-600/30">
+                    <h3 className="text-xl font-bold text-gray-400 mb-3">
+                      {band.name} 的招聘需求
+                    </h3>
+                    <p className="text-gray-500 text-sm italic">
+                      暂无特定招聘需求
+                    </p>
+                  </div>
+                )}
+                
+                {/* 总招聘需求 */}
+                <div className="bg-gray-900/50 rounded-lg p-6">
+                  <pre className="text-gray-300 whitespace-pre-wrap text-sm leading-relaxed">
+                    {GENERAL_RECRUITMENT_NEEDS}
+                  </pre>
+                </div>
+              </div>
             </div>
           </div>
         )}
-
 
       </div>
     </div>
