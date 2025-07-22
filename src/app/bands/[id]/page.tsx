@@ -3,7 +3,7 @@
 import { notFound } from "next/navigation";
 import { bandsData } from "@/data/bands";
 import { peopleData } from "@/data/people";
-import { Instagram, Youtube, Music, Users, Calendar, Play, ArrowLeft, Heart, Share2, Clock, ExternalLink, Guitar, Mic, Piano, Drum, X, FolderOpen, Download } from "lucide-react";
+import { Instagram, Youtube, Music, Users, Calendar, Play, ExternalLink, Guitar, Mic, Piano, Drum, X, FolderOpen, Download } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -25,7 +25,7 @@ const BandPage = ({ params }: BandPageProps) => {
     notFound();
   }
 
-  const bandMembers = peopleData.filter(person => band.members.includes(person.id));
+  const bandMembers = peopleData.filter(person => band.members && band.members.includes(person.id));
 
   // Function to get instrument icon
   const getInstrumentIcon = (instrument: string) => {
@@ -55,13 +55,19 @@ const BandPage = ({ params }: BandPageProps) => {
             {/* Band Photo */}
             <div className="relative lg:w-1/3">
               <div className="w-full aspect-square rounded-2xl overflow-hidden border-4 border-gray-700/50">
-                <Image
-                  src={band.photo}
-                  alt={band.name}
-                  width={400}
-                  height={400}
-                  className="w-full h-full object-cover"
-                />
+                {band.photo ? (
+                  <Image
+                    src={band.photo}
+                    alt={band.name}
+                    width={400}
+                    height={400}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-gray-600/50 flex items-center justify-center">
+                    <Music size={80} className="text-gray-400" />
+                  </div>
+                )}
               </div>
             </div>
 
@@ -80,54 +86,60 @@ const BandPage = ({ params }: BandPageProps) => {
                 </div>
               )}
 
-              <div className="flex flex-wrap items-center gap-6 text-gray-400 mb-6">
-                <div className="flex items-center gap-2">
-                  <Calendar size={20} />
-                  <span>Formed {band.formed}</span>
+              {band.formed && (
+                <div className="flex flex-wrap items-center gap-6 text-gray-400 mb-6">
+                  <div className="flex items-center gap-2">
+                    <Calendar size={20} />
+                    <span>Formed {band.formed}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Users size={20} />
+                    <span>{bandMembers.length} members</span>
+                  </div>
                 </div>
-                <div className="flex items-center gap-2">
-                  <Users size={20} />
-                  <span>{bandMembers.length} members</span>
-                </div>
-              </div>
+              )}
 
-              <p className="text-xl text-gray-300 leading-relaxed mb-8">
-                {band.description}
-              </p>
+              {band.description && (
+                <p className="text-xl text-gray-300 leading-relaxed mb-8 whitespace-pre-line">
+                  {band.description}
+                </p>
+              )}
 
               {/* Social Links */}
-              <div className="flex gap-4">
-                {band.social.instagram && (
-                  <a
-                    href={`https://instagram.com/${band.social.instagram.replace('@', '')}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-3 bg-gray-700/50 rounded-full hover:bg-primary/20 hover:text-primary transition-all duration-300"
-                  >
-                    <Instagram size={24} />
-                  </a>
-                )}
-                {band.social.youtube && (
-                  <a
-                    href={`https://youtube.com/@${band.social.youtube}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-3 bg-gray-700/50 rounded-full hover:bg-primary/20 hover:text-primary transition-all duration-300"
-                  >
-                    <Youtube size={24} />
-                  </a>
-                )}
-                {band.social.spotify && (
-                  <a
-                    href={`https://open.spotify.com/artist/${band.social.spotify}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-3 bg-gray-700/50 rounded-full hover:bg-primary/20 hover:text-primary transition-all duration-300"
-                  >
-                    <Music size={24} />
-                  </a>
-                )}
-              </div>
+              {band.social && (band.social.instagram || band.social.youtube || band.social.spotify) && (
+                <div className="flex gap-4">
+                  {band.social.instagram && (
+                    <a
+                      href={`https://instagram.com/${band.social.instagram.replace('@', '')}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-3 bg-gray-700/50 rounded-full hover:bg-primary/20 hover:text-primary transition-all duration-300"
+                    >
+                      <Instagram size={24} />
+                    </a>
+                  )}
+                  {band.social.youtube && (
+                    <a
+                      href={`https://youtube.com/@${band.social.youtube}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-3 bg-gray-700/50 rounded-full hover:bg-primary/20 hover:text-primary transition-all duration-300"
+                    >
+                      <Youtube size={24} />
+                    </a>
+                  )}
+                  {band.social.spotify && (
+                    <a
+                      href={`https://open.spotify.com/artist/${band.social.spotify}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-3 bg-gray-700/50 rounded-full hover:bg-primary/20 hover:text-primary transition-all duration-300"
+                    >
+                      <Music size={24} />
+                    </a>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -147,13 +159,19 @@ const BandPage = ({ params }: BandPageProps) => {
               >
                 <div className="flex items-center gap-4">
                   <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-gray-700 group-hover:border-primary/50 transition-colors">
-                    <Image
-                      src={member.photo}
-                      alt={member.name}
-                      width={64}
-                      height={64}
-                      className="w-full h-full object-cover"
-                    />
+                    {member.photo ? (
+                      <Image
+                        src={member.photo}
+                        alt={member.name}
+                        width={64}
+                        height={64}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-gray-600/50 flex items-center justify-center">
+                        <Music size={24} className="text-gray-400" />
+                      </div>
+                    )}
                   </div>
                   <div className="flex-1">
                     <h3 className="text-lg font-bold text-white group-hover:text-primary transition-colors">{member.name}</h3>
@@ -165,7 +183,7 @@ const BandPage = ({ params }: BandPageProps) => {
                   <div className="text-center">
                     <h4 className="text-lg font-bold text-white mb-3">{member.name}</h4>
                     <div className="flex flex-wrap gap-2 justify-center">
-                      {member.roles.map((role, index) => (
+                      {member.roles && member.roles.map((role, index) => (
                         <div key={index} className="flex items-center gap-2 bg-primary/20 text-primary px-3 py-2 rounded-lg text-sm font-medium">
                           {getInstrumentIcon(role)}
                           <span>{role}</span>
@@ -179,42 +197,132 @@ const BandPage = ({ params }: BandPageProps) => {
           </div>
         </div>
 
-        {/* Google Drive Section */}
-        <div className="mb-12">
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-3xl font-bold text-white flex items-center gap-3">
-              <FolderOpen size={32} />
-              乐队作品集
-            </h2>
-          </div>
-          <div className="bg-gray-800/30 backdrop-blur-sm rounded-xl p-8 border border-gray-700/50 hover:border-primary/50 transition-all duration-300">
-            <div className="flex flex-col md:flex-row items-start gap-6">
-              {/* Google Drive Icon */}
-              <div className="flex-shrink-0">
-                <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-green-500 rounded-xl flex items-center justify-center">
-                  <FolderOpen size={32} className="text-white" />
+        {/* 作品集 Section */}
+        {(band.googleDrive?.url || band.youtubeVideos?.length || band.bilibiliVideos?.length || band.xiaohongshuVideos?.length) && (
+          <div className="mb-12">
+            <div className="flex items-center justify-between mb-8">
+              <h2 className="text-3xl font-bold text-white flex items-center gap-3">
+                <FolderOpen size={32} />
+                作品集
+              </h2>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-6">
+              {/* Google Drive */}
+              {band.googleDrive?.url && (
+                <div className="bg-gray-800/30 backdrop-blur-sm rounded-xl p-6 border border-gray-700/50 hover:border-primary/50 transition-all duration-300">
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-green-500 rounded-lg flex items-center justify-center">
+                      <FolderOpen size={24} className="text-white" />
+                    </div>
+                    <h3 className="text-lg font-bold text-white">Google Drive</h3>
+                  </div>
+                  <a
+                    href={band.googleDrive.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 bg-primary hover:bg-primary/80 text-black font-medium px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105 text-sm"
+                  >
+                    <Download size={16} />
+                    访问
+                    <ExternalLink size={14} />
+                  </a>
                 </div>
-              </div>
-              
-              {/* Content */}
-              <div className="flex-1">
-                <h3 className="text-2xl font-bold text-white mb-6">Google Drive 作品库</h3>
-                
-                {/* Access Button */}
-                <a
-                  href={band.googleDrive.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-3 bg-primary hover:bg-primary/80 text-white font-semibold px-6 py-3 rounded-lg transition-all duration-300 hover:scale-105 shadow-lg"
-                >
-                  <Download size={20} />
-                  访问 Google Drive
-                  <ExternalLink size={16} />
-                </a>
-              </div>
+              )}
+
+              {/* Youtube Videos */}
+              {band.youtubeVideos && band.youtubeVideos.length > 0 && (
+                <div className="bg-gray-800/30 backdrop-blur-sm rounded-xl p-6 border border-gray-700/50 hover:border-primary/50 transition-all duration-300">
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="w-12 h-12 bg-gradient-to-br from-red-500 to-red-600 rounded-lg flex items-center justify-center">
+                      <Play size={24} className="text-white" />
+                    </div>
+                    <h3 className="text-lg font-bold text-white">Youtube</h3>
+                  </div>
+                  <div className="space-y-2">
+                    {band.youtubeVideos.map((video, index) => (
+                      <a
+                        key={index}
+                        href={video.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 text-gray-300 hover:text-primary transition-all duration-200 text-sm group"
+                        title={video.title}
+                      >
+                        <span className="truncate hover:underline decoration-primary/50 underline-offset-2">
+                          {video.title}
+                        </span>
+                        <ExternalLink size={12} className="text-primary opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0" />
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Bilibili Videos */}
+              {band.bilibiliVideos && band.bilibiliVideos.length > 0 && (
+                <div className="bg-gray-800/30 backdrop-blur-sm rounded-xl p-6 border border-gray-700/50 hover:border-primary/50 transition-all duration-300">
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="w-12 h-12 bg-gradient-to-br from-pink-400 to-pink-600 rounded-lg flex items-center justify-center">
+                      <svg className="w-6 h-6 text-white" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.56 3.76v7.36c-.036 1.51-.556 2.769-1.56 3.773s-2.262 1.524-3.773 1.56H5.333c-1.51-.036-2.769-.556-3.773-1.56S.036 18.858 0 17.347v-7.36c.036-1.511.556-2.765 1.56-3.76 1.004-.996 2.262-1.52 3.773-1.574h.774l-1.174-1.12a1.234 1.234 0 0 1-.373-.906c0-.356.124-.658.373-.907l.027-.027c.267-.267.573-.4.92-.4.347 0 .653.133.92.4L9.653 4.44c.071.071.134.142.187.213h4.267a.836.836 0 0 1 .16-.213l2.853-2.747c.267-.267.573-.4.92-.4.347 0 .653.133.92.4.267.267.4.573.4.92 0 .347-.133.653-.4.92L17.813 4.653zm-.854 2.747v8.053c0 .356-.133.658-.4.92-.267.267-.573.4-.92.4-.347 0-.653-.133-.92-.4-.267-.267-.4-.573-.4-.92V7.4c0-.356.133-.658.4-.92.267-.267.573-.4.92-.4.347 0 .653.133.92.4.267.267.4.573.4.92z"/>
+                      </svg>
+                    </div>
+                    <h3 className="text-lg font-bold text-white">Bilibili</h3>
+                  </div>
+                  <div className="space-y-2">
+                    {band.bilibiliVideos.map((video, index) => (
+                      <a
+                        key={index}
+                        href={video.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 text-gray-300 hover:text-primary transition-all duration-200 text-sm group"
+                        title={video.title}
+                      >
+                        <span className="truncate hover:underline decoration-primary/50 underline-offset-2">
+                          {video.title}
+                        </span>
+                        <ExternalLink size={12} className="text-primary opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0" />
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* 小红书 Videos */}
+              {band.xiaohongshuVideos && band.xiaohongshuVideos.length > 0 && (
+                <div className="bg-gray-800/30 backdrop-blur-sm rounded-xl p-6 border border-gray-700/50 hover:border-primary/50 transition-all duration-300">
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="w-12 h-12 bg-gradient-to-br from-pink-500 to-red-500 rounded-lg flex items-center justify-center">
+                      <svg className="w-6 h-6 text-white" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                      </svg>
+                    </div>
+                    <h3 className="text-lg font-bold text-white">小红书</h3>
+                  </div>
+                  <div className="space-y-2">
+                    {band.xiaohongshuVideos.map((video, index) => (
+                      <a
+                        key={index}
+                        href={video.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 text-gray-300 hover:text-primary transition-all duration-200 text-sm group"
+                        title={video.title}
+                      >
+                        <span className="truncate hover:underline decoration-primary/50 underline-offset-2">
+                          {video.title}
+                        </span>
+                        <ExternalLink size={12} className="text-primary opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0" />
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
-        </div>
+        )}
 
         {/* 固定位置的Join Us按钮 */}
         <div className="fixed top-20 right-4 z-60">

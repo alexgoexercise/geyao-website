@@ -1,22 +1,15 @@
 "use client";
 
 import { useState, useMemo, useRef } from "react";
-import { bandsData, Band } from "@/data/bands";
+import { bandsData } from "@/data/bands";
 import { peopleData } from "@/data/people";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInstagram, faYoutube } from '@fortawesome/free-brands-svg-icons';
-import { faMusic, faCalendar, faPlay, faGuitar, faMicrophone, faDrum, faUsers, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faMusic, faCalendar, faGuitar, faMicrophone, faDrum, faUsers, faTimes } from '@fortawesome/free-solid-svg-icons';
 import Image from "next/image";
 import Link from "next/link";
 
-const genreIcons = {
-  "Rock Fusion": faGuitar,
-  "Electronic Pop": faMusic,
-  "Classical Crossover": faMusic,
-  "Jazz Fusion": faMicrophone,
-  "Acoustic Folk": faGuitar,
-  "Progressive Metal": faDrum
-};
+
 
 const BandsGrid = () => {
   const [search, setSearch] = useState("");
@@ -38,26 +31,24 @@ const BandsGrid = () => {
       // 搜索乐队名
       if (band.name.toLowerCase().includes(keyword)) return true;
       // 搜索描述
-      if (band.description.toLowerCase().includes(keyword)) return true;
+      if (band.description && band.description.toLowerCase().includes(keyword)) return true;
       // 搜索genre
-      if (band.genre.toLowerCase().includes(keyword)) return true;
+      if (band.genre && band.genre.toLowerCase().includes(keyword)) return true;
       // 搜索tags
       if (band.tags && band.tags.some(tag => tag.toLowerCase().includes(keyword))) return true;
       // 搜索成员名
-      const bandMembers = peopleData.filter(person => band.members.includes(person.id));
+      const bandMembers = peopleData.filter(person => band.members && band.members.includes(person.id));
       if (bandMembers.some(member => member.name.toLowerCase().includes(keyword))) return true;
-      // 搜索视频名
-      if (band.videos.some(video => video.title.toLowerCase().includes(keyword))) return true;
+
       
       return false;
     });
   }, [search]);
 
-  const [hoveredBand, setHoveredBand] = useState<string | null>(null);
 
-  const genres = ["all", ...Array.from(new Set(bandsData.map(b => b.genre)))];
 
-  const getBandMembers = (memberIds: string[]) => {
+  const getBandMembers = (memberIds: string[] | undefined) => {
+    if (!memberIds) return [];
     return peopleData.filter(person => memberIds.includes(person.id));
   };
 
@@ -111,8 +102,7 @@ const BandsGrid = () => {
                 key={band.id}
                 href={`/bands/${band.id}`}
                 className="group relative bg-gray-800/30 backdrop-blur-sm rounded-2xl p-6 border border-gray-700/50 hover:border-primary/50 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-primary/10 cursor-pointer"
-                onMouseEnter={() => setHoveredBand(band.id)}
-                onMouseLeave={() => setHoveredBand(null)}
+                
               >
                 {/* Background Gradient */}
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -123,13 +113,19 @@ const BandsGrid = () => {
                   <div className="flex items-start gap-6 mb-6">
                     <div className="relative">
                       <div className="w-24 h-24 rounded-xl overflow-hidden border-2 border-gray-700 group-hover:border-primary/50 transition-colors duration-300">
-                        <Image
-                          src={band.photo}
-                          alt={band.name}
-                          width={96}
-                          height={96}
-                          className="w-full h-full object-cover"
-                        />
+                        {band.photo ? (
+                          <Image
+                            src={band.photo}
+                            alt={band.name}
+                            width={96}
+                            height={96}
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-gray-600/50 flex items-center justify-center">
+                            <FontAwesomeIcon icon={faMusic} size="2x" className="text-gray-400" />
+                          </div>
+                        )}
                       </div>
                     </div>
                     
@@ -168,13 +164,19 @@ const BandsGrid = () => {
                           className="flex items-center gap-2 bg-gray-700/50 px-3 py-1 rounded-full text-sm"
                         >
                           <div className="w-6 h-6 rounded-full overflow-hidden">
-                            <Image
-                              src={member.photo}
-                              alt={member.name}
-                              width={24}
-                              height={24}
-                              className="w-full h-full object-cover"
-                            />
+                            {member.photo ? (
+                              <Image
+                                src={member.photo}
+                                alt={member.name}
+                                width={24}
+                                height={24}
+                                className="w-full h-full object-cover"
+                              />
+                            ) : (
+                              <div className="w-full h-full bg-gray-600/50 flex items-center justify-center">
+                                <FontAwesomeIcon icon={faMusic} size="xs" className="text-gray-400" />
+                              </div>
+                            )}
                           </div>
                           <span className="text-gray-300">{member.name}</span>
                         </div>

@@ -57,7 +57,7 @@ const EventsPage = () => {
               {/* 其他页面的提示 */}
               <div className="bg-yellow-900/20 rounded-lg p-6 border border-yellow-600/30">
                 <p className="text-yellow-300 text-sm font-medium">
-                  💡 直选渠道请前往个人页面或乐队页面
+                  💡 直选渠道请前往个人或乐队界面点击Join Us
                 </p>
               </div>
             </div>

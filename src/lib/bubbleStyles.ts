@@ -36,7 +36,7 @@ export function getBubbleClass(bubble: SocialBubble) {
     }
   }
   // Glow/shadow
-  let shadow = bubble.glow ? `shadow-2xl ${bubble.glow}` : 'shadow-2xl';
+  const shadow = bubble.glow ? `shadow-2xl ${bubble.glow}` : 'shadow-2xl';
   return `${base} ${shape} ${border} ${pulse} ${shadow}`;
 }
 

@@ -292,7 +292,7 @@ const ContactPage = () => {
               {/* 其他页面的提示 */}
               <div className="bg-yellow-900/20 rounded-lg p-6 border border-yellow-600/30">
                 <p className="text-yellow-300 text-sm font-medium">
-                  💡 直选渠道请前往个人页面或乐队页面
+                  💡 直选渠道请前往个人或乐队界面点击Join Us
                 </p>
               </div>
             </div>
@@ -315,7 +315,7 @@ const ContactPage = () => {
         </div>
 
         {/* Bottom 1/3: Contact Us Title with Meme */}
-        <div className="absolute bottom-0 left-0 right-0 flex items-start justify-center z-10 pointer-events-none pt-8" 
+        <div className="absolute bottom-0 left-0 right-0 flex items-start justify-center z-10 pt-8" 
              style={{ height: '33.33%' }}>
           <div className="flex items-center gap-4 md:gap-8">
             <motion.h1 
@@ -361,7 +361,8 @@ const ContactPage = () => {
             {/* Alumni Aunty Meme */}
             <motion.div
               key={`meme-${animationKey}`}
-              className="flex-shrink-0"
+              className="flex-shrink-0 cursor-pointer hover:scale-110 transition-transform duration-300"
+              onClick={() => setIsJoinUsModalOpen(true)}
               initial={{ 
                 opacity: 0,
                 scale: 0.8,
@@ -376,6 +377,10 @@ const ContactPage = () => {
                 delay: 0.7,
                 duration: 0.5,
                 ease: [0.4, 0, 0.2, 1]
+              }}
+              whileHover={{ 
+                scale: 1.1,
+                rotate: 5
               }}
             >
               <Image 

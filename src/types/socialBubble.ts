@@ -2,7 +2,7 @@ export interface SocialBubble {
   id: string;
   platform: string;
   url: string;
-  icon: any; // FontAwesome icon definition or null for custom SVG
+  icon: unknown; // FontAwesome icon definition or null for custom SVG
   color: string;
   variant?: string;
   baseSize?: number;

@@ -109,7 +109,7 @@ export const peopleData: Person[] = [
     name: "Nie Xinyi Cynthia | 麻薯猫Moko",
     photo: "/photos/Nie_Xinyi.jpg",
     description: "Keyboardist and electronic music producer. Specializes in synthesizers and digital music production, bringing modern electronic elements to our sound.",
-    roles: ["Violin"],
+    roles: ["Violin", "Viola"],
     department: ["Performer"],
     bands: ["5"],
     social: {
@@ -213,101 +213,363 @@ export const peopleData: Person[] = [
   },
   {
     id: "10",
-    name: "Amanda Wong",
-    photo: "/window.svg",
-    description: "Social media manager and content creator. Handles digital marketing, social media campaigns, and online presence for all bands.",
-    contact: {
-      email: "amanda.wong@geyao.edu",
-      phone: "+65 9012 3456",
-      social: {
-        instagram: "@amanda_social",
-        linkedin: "amanda-wong-digital"
-      }
-    },
-    role: "Social Media Manager",
-    roles: [],
-    department: "Publicity",
-    bands: ["1", "2", "3", "4", "5", "6"], // All bands
+    name: "梓琛",
+    photo: "/photos/Huang_Zichen.jpg",
+    roles: ["Guitar"],
+    department: "Performer",
     social: {
-      wechat: "/qr-code-default.svg",
-      instagram: "@default",
-      telegram: "@lhmFZ"
+      wechat: "/qr-codes/collection.png",
+      telegram: "@zimiqi"
     },
-    casualTalk: "Social media is like jazz - it's all about improvisation and reading the room. I have a secret Instagram account where I post pictures of dogs I meet on the street!",
+    casualTalk: "woshicaibi",
     topAlbums: [
-      "Anti - Rihanna",
-      "Blonde - Frank Ocean",
-      "Ctrl - SZA",
-      "Good Kid, M.A.A.D City - Kendrick Lamar",
-      "Channel Orange - Frank Ocean",
-      "To Pimp a Butterfly - Kendrick Lamar"
+      "For long tomorrow - Toe",
+      "Fake Plastic Trees - Radiohead",
+      "Sgt.Pepper's lonely heart club band - The Beatles",
+      "菊花夜行军 - 交工乐队",
+      "空间、事情、时间、事象。",
+      "Loveless"
     ],
-    recruitmentNeeds: "Seeking content creators who can produce short-form video content for TikTok and Instagram Reels, and social media influencers for cross-promotional collaborations. Also need copywriters for engaging social media captions and blog posts."
+    recruitmentNeeds: "想要一个一起玩Indie的！"
   },
   {
     id: "11",
-    name: "Kevin Liu",
-    photo: "/hero-background.jpg",
-    description: "Sound engineer and technical specialist. Handles audio equipment setup, mixing, and live sound management for all performances.",
-    contact: {
-      email: "kevin.liu@geyao.edu",
-      phone: "+65 9123 7890",
-      social: {
-        instagram: "@kevin_sound",
-        linkedin: "kevin-liu-audio"
-      }
-    },
-    role: "Sound Engineer",
-    roles: [],
-    department: "Technician",
-    bands: ["1", "2", "3", "4", "5", "6"], // All bands
+    name: "Liu Yuezhang | Anthony",
+    photo: "/photos/Liu_Yuezhang.jpg",
+    roles: ["Saxophone", "Clarinet"],
+    department: ["Performer"],
+    bands: ["5"],
     social: {
-      wechat: "/qr-code-default.svg",
-      instagram: "@default",
-      telegram: "@lhmFZ"
+      wechat: "/qr-codes/collection.png",
+      instagram: "a14yzliu",
     },
-    casualTalk: "Perfect sound is invisible - when I do my job right, nobody notices me. I also build custom speakers in my garage and test them way too loud for my neighbors' liking!",
+    casualTalk: "Me thinks me breathes me lasts me fears.",
     topAlbums: [
-      "The Dark Side of the Moon - Pink Floyd",
-      "OK Computer - Radiohead",
-      "Pet Sounds - The Beach Boys",
-      "Abbey Road - The Beatles",
-      "Kind of Blue - Miles Davis",
-      "Aja - Steely Dan"
+      "Mahler Symphony no.3",
+      "Tchaikovsky Symphony no.5",
+      "Ysaye Violin Sonata no. 3",
+      "Tempest by Bob Dylan",
+      "三大纪律八项注意",
+      "Uralskaya Ryabinushka"
     ],
-    recruitmentNeeds: "Looking for assistant sound engineers to help with live sound setup and mixing, and audio equipment technicians for maintenance and repairs. Interested in collaborating with musicians on experimental audio projects and soundscape compositions."
   },
   {
     id: "12",
-    name: "Sophie Chen",
-    photo: "/globe.svg",
-    description: "Lighting technician and stage manager. Coordinates lighting design and stage setup for live performances and events.",
-    contact: {
-      email: "sophie.chen@geyao.edu",
-      phone: "+65 9234 8901",
-      social: {
-        instagram: "@sophie_lights",
-        twitter: "@sophie_stage"
-      }
-    },
-    role: "Lighting Technician",
-    roles: [],
-    department: "Technician",
-    bands: ["1", "2", "3", "4", "5", "6"], // All bands
+    name: "Li Xinyang",
+    photo: "/photos/Li_Xinyang.jpg",
+    roles: ["Vocal", "Violin", "Viola"],
+    department: "Performer",
     social: {
-      wechat: "/qr-code-default.svg",
-      instagram: "@default",
-      telegram: "@lhmFZ"
+      wechat: "/qr-codes/collection.png",
+      instagram: "li957293",
     },
-    casualTalk: "Lighting is the secret sauce that transforms a performance from good to magical. I see the world in color temperatures - my friends think I'm weird for noticing every light bulb!",
+    casualTalk: "嘿嘿嘿",
+  },
+  {
+    id: "13",
+    name: "Cao Zhijing | Zjay执经",
+    photo: "/photos/Cao_Zhijing.jpeg",
+    roles: ["Vocal", "Rap"],
+    department: ["Performer"],
+    bands: ["2"],
+    social: {
+      wechat: "/qr-codes/collection.png",
+      instagram: "caozj1108",
+      telegram: "@czj1108"
+    },
+    casualTalk: "I love my 葫芦娃 and MADreamers",
+    recruitmentNeeds: "Looking for Chinese rappers that loves positive hiphop music."
+  },
+  {
+    id: "14",
+    name: "Wang Yawei | Arvian小艾",
+    photo: "/photos/Wang_Yawei.jpeg",
+    roles: ["Drums"],
+    department: ["Performer"],
+    bands: ["1"],
+    social: {
+      wechat: "/qr-codes/collection.png",
+      instagram: "arvian.wyw",
+    },
     topAlbums: [
-      "The Wall - Pink Floyd",
-      "The Joshua Tree - U2",
-      "OK Computer - Radiohead",
-      "Dark Side of the Moon - Pink Floyd",
-      "Led Zeppelin IV - Led Zeppelin",
-      "Thriller - Michael Jackson"
+      "黑豹乐队",
+      "Under My Skin",
+      "八度空间",
+      "平凡之路",
+      "西湖",
+      "Always Remember Us This Way"
     ],
-    recruitmentNeeds: "Seeking lighting designers with experience in concert and theatrical lighting, and stage assistants for equipment setup and management. Looking for visual artists to create immersive stage experiences and collaborate on multimedia performances."
-  }
+    casualTalk: "Super introvert in person but eager to perform; Believe music can heal souls and touch hearts deeply; Still searching for purpose or how I want to live in life",
+    recruitmentNeeds: "Looking for bandmates who like Chinese indie band music who want to play together"
+  },
+  {
+    id: "15",
+    name: "Andy | CrayzD",
+    photo: "/photos/Andy.jpg",
+    roles: ["Vocal", "Rap"],
+    department: ["Performer", "Technician"],
+    bands: ["2"],
+    social: {
+      wechat: "/qr-codes/collection.png",
+      instagram: "lionelandy_21",
+      telegram: "@wypcch112"
+    },
+    topAlbums: [
+      "Eternal Atake - lil uzi vert",
+      "Rodeo - Travis Scott",
+      "The Sailor - Rich Brian",
+      "Donda - Kanye West",
+      "My Beautiful Dark Twisted Fantasy - Kanye west",
+      "Death Race For Love - Juice Wrld"
+    ],
+    casualTalk: "I like exploring new music and I think all taylor swift's songs sound the same",
+    recruitmentNeeds: "Looking for rappers."
+  },
+  {
+    id: "16",
+    name: "Wang Hongli Daniel Caesar | Frank Ocean",
+    photo: "/photos/Wang_Hongli.jpg",
+    roles: ["Vocal"],
+    department: ["Performer"],
+    social: {
+      wechat: "/qr-codes/collection.png",
+      instagram: "whlsdsghhhh",
+      telegram: "@ShuaiRen12345"
+    },
+    topAlbums: [
+      "blonde",
+      "channel orange",
+      "Voodoo",
+      "Never Enough",
+      "Awaken Mylove",
+      "Flower Boy"
+    ],
+    casualTalk: "I like to sing when im pooping",
+  },
+  {
+    id: "17",
+    name: "Zhao Junchuan | Danny",
+    photo: "/photos/Zhao_Junchuan.jpeg",
+    roles: ["Vocal"],
+    department: ["Performer"],
+    social: {
+      wechat: "/qr-codes/collection.png",
+    },
+    topAlbums: [
+      "Nica’s Dream - Dee Dee Bridgewater",
+      "Bye Bye Blackbird - Etta Jones",
+      "I am what I am - Veronica Swift",
+      "Think - Aretha Franklin",
+      "You’re not here - Cynthia Erivo",
+      "That’s what friends are for - Dionne Warwick"
+    ],
+    casualTalk: "A Jazzy cat 🎷🐱 (I'm in NUS JazzBand as well~)",
+  },
+  {
+    id: "18",
+    name: "Li Jianing",
+    department: ["Performer"],
+    bands: ["2"],
+    social: {
+      wechat: "/qr-codes/collection.png",
+    },
+  },
+  {
+    id: "19",
+    name: "Liao Tingdong",
+    department: ["Performer"],
+    bands: ["2"],
+    social: {
+      wechat: "/qr-codes/collection.png",
+    },
+  },
+  {
+    id: "20",
+    name: "Li Gangwei",
+    department: ["Performer"],
+    bands: ["3"],
+    social: {
+      wechat: "/qr-codes/collection.png",
+    },
+  },
+  {
+    id: "21",
+    name: "Tong Zhongyi",
+    department: ["Performer"],
+    bands: ["3"],
+    social: {
+      wechat: "/qr-codes/collection.png",
+    },
+  },
+  {
+    id: "22",
+    name: "Wu Xiangjiehui",
+    department: ["Performer"],
+    bands: ["3"],
+    social: {
+      wechat: "/qr-codes/collection.png",
+    },
+  },
+  {
+    id: "23",
+    name: "Qin Chuqi",
+    department: ["Performer"],
+    bands: ["3"],
+    social: {
+      wechat: "/qr-codes/collection.png",
+    },
+  },
+  {
+    id: "24",
+    name: "Zhao Mingyu",
+    department: ["Performer"],
+    bands: ["3"],
+    social: {
+      wechat: "/qr-codes/collection.png",
+    },
+  },
+  {
+    id: "25",
+    name: "Jiang Songting",
+    department: ["Performer"],
+    bands: ["3"],
+    social: {
+      wechat: "/qr-codes/collection.png",
+    },
+  },
+  {
+    id: "26",
+    name: "Pan Xiaodi",
+    department: ["Performer"],
+    bands: ["3"],
+    social: {
+      wechat: "/qr-codes/collection.png",
+    },
+  },
+  {
+    id: "27",
+    name: "Yang Xingyi",
+    department: ["Performer"],
+    bands: ["3"],
+    social: {
+      wechat: "/qr-codes/collection.png",
+    },
+  },
+  {
+    id: "28",
+    name: "德里克",
+    department: ["Performer"],
+    bands: ["6"],
+    social: {
+      wechat: "/qr-codes/collection.png",
+    },
+  },
+  {
+    id: "29",
+    name: "Mike",
+    department: ["Performer"],
+    bands: ["6"],
+    social: {
+      wechat: "/qr-codes/collection.png",
+    },
+  },
+  {
+    id: "30",
+    name: "张泽华",
+    department: ["Performer"],
+    bands: ["6"],
+    social: {
+      wechat: "/qr-codes/collection.png",
+    },
+  },
+  {
+    id: "31",
+    name: "陈潘升",
+    department: ["Performer"],
+    bands: ["6"],
+    social: {
+      wechat: "/qr-codes/collection.png",
+    },
+  },
+  {
+    id: "32",
+    name: "Belle",
+    department: ["Performer"],
+    bands: ["6"],
+    social: {
+      wechat: "/qr-codes/collection.png",
+    },
+  },
+  {
+    id: "33",
+    name: "陈夕",
+    department: ["Performer"],
+    bands: ["6"],
+    social: {
+      wechat: "/qr-codes/collection.png",
+    },
+  },
+  {
+    id: "34",
+    name: "周芃睿",
+    department: ["Performer"],
+    bands: ["7"],
+    social: {
+      wechat: "/qr-codes/collection.png",
+    },
+  },
+  {
+    id: "35",
+    name: "王梓莘",
+    department: ["Performer"],
+    bands: ["7"],
+    social: {
+      wechat: "/qr-codes/collection.png",
+    },
+  },
+  {
+    id: "36",
+    name: "季嘉豪",
+    department: ["Performer"],
+    bands: ["7"],
+    social: {
+      wechat: "/qr-codes/collection.png",
+    },
+  },
+  {
+    id: "37",
+    name: "田又予",
+    department: ["Performer"],
+    bands: ["7"],
+    social: {
+      wechat: "/qr-codes/collection.png",
+    },
+  },
+  {
+    id: "38",
+    name: "李霄扬",
+    department: ["Performer"],
+    bands: ["7"],
+    social: {
+      wechat: "/qr-codes/collection.png",
+    },
+  },
+  {
+    id: "39",
+    name: "王宇豪",
+    department: ["Performer"],
+    bands: ["7"],
+    social: {
+      wechat: "/qr-codes/collection.png",
+    },
+  },
+  {
+    id: "40",
+    name: "刘现奕",
+    department: ["Performer"],
+    bands: ["7"],
+    social: {
+      wechat: "/qr-codes/collection.png",
+    },
+  },
 ]; 

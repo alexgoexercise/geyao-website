@@ -69,11 +69,11 @@ const PeopleGrid = () => {
         {/* Department Filter */}
         <div className="flex flex-wrap justify-center gap-4 mb-12">
           {departments.map((dept) => {
-            const Icon = dept === "all" ? faUsers : departmentIcons[dept as keyof typeof departmentIcons];
+            const Icon = dept === "all" ? faUsers : (departmentIcons[dept as keyof typeof departmentIcons] || faUsers);
             return (
               <button
                 key={dept}
-                onClick={() => setSelectedDepartment(dept)}
+                onClick={() => setSelectedDepartment(dept || "all")}
                 className={`flex items-center gap-2 px-6 py-3 rounded-full transition-all duration-300 ${
                   selectedDepartment === dept
                     ? "bg-primary text-white shadow-lg shadow-primary/25"
@@ -106,13 +106,19 @@ const PeopleGrid = () => {
                 <div className="flex items-start gap-6 mb-6">
                   <div className="relative">
                     <div className="w-24 h-24 rounded-xl overflow-hidden border-2 border-gray-700 group-hover:border-primary/50 transition-colors duration-300">
-                      <Image
-                        src={person.photo}
-                        alt={person.name}
-                        width={96}
-                        height={96}
-                        className="w-full h-full object-cover"
-                      />
+                      {person.photo ? (
+                        <Image
+                          src={person.photo}
+                          alt={person.name}
+                          width={96}
+                          height={96}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <div className="w-full h-full bg-gray-700 flex items-center justify-center">
+                          <FontAwesomeIcon icon={faMusic} size="2x" className="text-gray-500" />
+                        </div>
+                      )}
                     </div>
                   </div>
                   
@@ -120,22 +126,22 @@ const PeopleGrid = () => {
                     <h3 className="text-2xl font-postmodern-heading text-white mb-2 group-hover:text-primary transition-colors tracking-tight">{person.name}</h3>
                     <div className="flex flex-wrap gap-2">
                       {/* Show roles for performers */}
-                      {isPerformer(person.department) && person.roles && person.roles.length > 0 && person.roles.map((role, index) => {
-                        const RoleIcon = roleIcons[role as keyof typeof roleIcons];
+                      {person.department && isPerformer(person.department) && person.roles && person.roles.length > 0 && person.roles.map((role, index) => {
+                        const RoleIcon = roleIcons[role as keyof typeof roleIcons] || faMusic;
                         return (
                           <span key={`role-${index}`} className="flex items-center gap-1 text-sm text-gray-300 bg-gray-700/50 px-3 py-1 rounded-full">
-                            {RoleIcon && <FontAwesomeIcon icon={RoleIcon} size="sm" className="text-primary" />}
+                            <FontAwesomeIcon icon={RoleIcon} size="sm" className="text-primary" />
                             {role}
                           </span>
                         );
                       })}
                       
                       {/* Show other departments */}
-                      {getNonPerformerDepartments(person.department).map((dept, index) => {
-                        const DeptIcon = departmentIcons[dept as keyof typeof departmentIcons];
+                      {person.department && getNonPerformerDepartments(person.department).map((dept, index) => {
+                        const DeptIcon = departmentIcons[dept as keyof typeof departmentIcons] || faUsers;
                         return (
                           <span key={`dept-${index}`} className="flex items-center gap-1 text-sm text-gray-300 bg-gray-700/50 px-3 py-1 rounded-full">
-                            {DeptIcon && <FontAwesomeIcon icon={DeptIcon} size="sm" className="text-primary" />}
+                            <FontAwesomeIcon icon={DeptIcon} size="sm" className="text-primary" />
                             {dept}
                           </span>
                         );

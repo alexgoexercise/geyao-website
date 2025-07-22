@@ -185,7 +185,7 @@
   .font-join-us {
     font-family: 'Space Grotesk', sans-serif;
     font-weight: 900;
-    font-size: 1.5rem;
+    font-size: 2.5rem;
     text-transform: uppercase;
     background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #ffeaa7, #fd79a8);
     background-size: 400% 400%;
@@ -198,7 +198,7 @@
 
   @media (min-width: 768px) {
     .font-join-us {
-      font-size: 2rem;
+      font-size: 3.5rem;
     }
   }
 
@@ -219,12 +219,18 @@
     z-index: 60;
   }
 
-  /* Animation for Join Us button */
+  /* Animation for Join Us button - 蹦迪节奏！ */
   @keyframes ping-custom {
     0% {
       transform: scale(1) rotate(12deg);
     }
+    25% {
+      transform: scale(1.3) rotate(12deg);
+    }
     50% {
+      transform: scale(1.1) rotate(12deg);
+    }
+    75% {
       transform: scale(1.4) rotate(12deg);
     }
     100% {
@@ -233,7 +239,7 @@
   }
   
   .animate-ping-custom {
-    animation: ping-custom 3s ease-in-out infinite;
+    animation: ping-custom 0.8s ease-in-out infinite;
   }
   
   .animate-ping-custom:hover {
