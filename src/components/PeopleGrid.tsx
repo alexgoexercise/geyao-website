@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { peopleData } from "@/data/people";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMusic, faUsers, faMicrophone, faDrum, faGuitar, faCog, faCommentDots, faBullhorn, faChevronDown, faComment, faUsers as faBand, faTimes } from '@fortawesome/free-solid-svg-icons';
@@ -52,6 +52,12 @@ const PeopleGrid = () => {
     isOpen: false,
     person: null
   });
+  const [isClient, setIsClient] = useState(false);
+
+  // Set isClient to true after component mounts
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   // Get unique departments
   const departments = ["all", ...Array.from(new Set(peopleData.flatMap(person => 
@@ -257,44 +263,56 @@ const PeopleGrid = () => {
                   {/* Social Media Icons */}
                   <div className="flex gap-2">
                     {/* Instagram */}
-                    {person.social?.instagram && (
-                      <a
-                        href={person.social.instagram.startsWith('http')
-                          ? person.social.instagram
-                          : `https://instagram.com/${person.social.instagram.replace(/^@/, '')}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="w-8 h-8 bg-gradient-to-br from-pink-500 to-purple-600 rounded-full flex items-center justify-center text-white text-xs hover:scale-110 transition-transform duration-300"
-                        onClick={e => e.stopPropagation()}
+                    {isClient && person.social?.instagram && (
+                      <button
+                        type="button"
+                        className="w-8 h-8 bg-gradient-to-br from-pink-500 to-purple-600 rounded-full flex items-center justify-center text-white text-xs hover:scale-110 transition-transform duration-300 cursor-pointer"
+                        onClick={e => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          window.open(
+                            person.social?.instagram?.startsWith('http')
+                              ? person.social?.instagram
+                              : `https://instagram.com/${person.social?.instagram?.replace(/^@/, '')}`,
+                            '_blank'
+                          );
+                        }}
                       >
                         <FontAwesomeIcon icon={faInstagramBrand} size="sm" />
-                      </a>
+                      </button>
                     )}
                     {/* Telegram */}
-                    {person.social?.telegram && (
-                      <a
-                        href={person.social.telegram.startsWith('http')
-                          ? person.social.telegram
-                          : `https://t.me/${person.social.telegram.replace(/^@/, '')}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="w-8 h-8 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-full flex items-center justify-center text-white text-xs hover:scale-110 transition-transform duration-300"
-                        onClick={e => e.stopPropagation()}
+                    {isClient && person.social?.telegram && (
+                      <button
+                        type="button"
+                        className="w-8 h-8 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-full flex items-center justify-center text-white text-xs hover:scale-110 transition-transform duration-300 cursor-pointer"
+                        onClick={e => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          window.open(
+                            person.social?.telegram?.startsWith('http')
+                              ? person.social?.telegram
+                              : `https://t.me/${person.social?.telegram?.replace(/^@/, '')}`,
+                            '_blank'
+                          );
+                        }}
                       >
                         <FontAwesomeIcon icon={faTelegramBrand} size="sm" />
-                      </a>
+                      </button>
                     )}
                     {/* WeChat (QR code image) */}
-                    {person.social?.wechat && (
-                      <a
-                        href={person.social.wechat}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="w-8 h-8 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center text-white text-xs hover:scale-110 transition-transform duration-300"
-                        onClick={e => e.stopPropagation()}
+                    {isClient && person.social?.wechat && (
+                      <button
+                        type="button"
+                        className="w-8 h-8 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center text-white text-xs hover:scale-110 transition-transform duration-300 cursor-pointer"
+                        onClick={e => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          window.open(person.social?.wechat, '_blank');
+                        }}
                       >
                         <FontAwesomeIcon icon={faWeixinBrand} size="sm" />
-                      </a>
+                      </button>
                     )}
                   </div>
 
@@ -337,7 +355,7 @@ const PeopleGrid = () => {
               {/* Close Button */}
               <button
                 onClick={closeRecruitmentModal}
-                className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
+                className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors cursor-pointer"
               >
                 <FontAwesomeIcon icon={faTimes} size="lg" />
               </button>
@@ -395,7 +413,7 @@ const PeopleGrid = () => {
                             : `https://instagram.com/${recruitmentModal.person.social.instagram.replace(/^@/, '')}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="w-10 h-10 bg-gradient-to-br from-pink-500 to-purple-600 rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform duration-300"
+                          className="w-10 h-10 bg-gradient-to-br from-pink-500 to-purple-600 rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform duration-300 cursor-pointer"
                         >
                           <FontAwesomeIcon icon={faInstagramBrand} size="sm" />
                         </a>
@@ -407,7 +425,7 @@ const PeopleGrid = () => {
                             : `https://t.me/${recruitmentModal.person.social.telegram.replace(/^@/, '')}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform duration-300"
+                          className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform duration-300 cursor-pointer"
                         >
                           <FontAwesomeIcon icon={faTelegramBrand} size="sm" />
                         </a>
@@ -417,7 +435,7 @@ const PeopleGrid = () => {
                           href={recruitmentModal.person.social.wechat}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform duration-300"
+                          className="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform duration-300 cursor-pointer"
                         >
                           <FontAwesomeIcon icon={faWeixinBrand} size="sm" />
                         </a>
