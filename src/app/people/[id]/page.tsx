@@ -629,7 +629,7 @@ export default function PersonPage({ params }: { params: Promise<PageParams> }) 
         )}
 
         {/* 固定位置的Join Us按钮 */}
-        <div className="fixed top-25 right-7 z-60">
+        <div className="fixed top-16 right-2 sm:top-20 sm:right-4 md:top-24 md:right-6 lg:top-28 lg:right-8 z-60">
           <button
             onClick={() => setIsJoinUsModalOpen(true)}
             className="animate-ping-custom transition-all duration-300 cursor-pointer focus:outline-none focus:ring-4 focus:ring-purple-500/50 rounded-lg p-2 md:p-3 transform rotate-12"
