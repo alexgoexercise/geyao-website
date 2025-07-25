@@ -74,7 +74,7 @@ const PeopleGrid = () => {
               <button
                 key={dept}
                 onClick={() => setSelectedDepartment(dept || "all")}
-                className={`flex items-center gap-2 px-6 py-3 rounded-full transition-all duration-300 ${
+                className={`flex items-center gap-2 px-6 py-3 rounded-full transition-all duration-300 cursor-pointer ${
                   selectedDepartment === dept
                     ? "bg-primary text-white shadow-lg shadow-primary/25"
                     : "bg-gray-800/50 text-gray-300 hover:bg-gray-700/50 hover:text-white"
