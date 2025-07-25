@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { peopleData } from "@/data/people";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMusic, faUsers, faMicrophone, faDrum, faGuitar, faCog, faCommentDots, faBullhorn, faChevronDown, faComment, faUsers as faBand } from '@fortawesome/free-solid-svg-icons';
+import { faMusic, faUsers, faMicrophone, faDrum, faGuitar, faCog, faCommentDots, faBullhorn, faChevronDown, faComment, faUsers as faBand, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { faInstagram as faInstagramBrand, faTelegram as faTelegramBrand, faWeixin as faWeixinBrand } from '@fortawesome/free-brands-svg-icons';
 import Image from "next/image";
 import Link from "next/link";
@@ -48,6 +48,10 @@ const PeopleGrid = () => {
   const [selectedDepartment, setSelectedDepartment] = useState("all");
   const [selectedInstrument, setSelectedInstrument] = useState("all");
   const [hoveredPerson, setHoveredPerson] = useState<string | null>(null);
+  const [recruitmentModal, setRecruitmentModal] = useState<{ isOpen: boolean; person: any }>({
+    isOpen: false,
+    person: null
+  });
 
   // Get unique departments
   const departments = ["all", ...Array.from(new Set(peopleData.flatMap(person => 
@@ -88,6 +92,16 @@ const PeopleGrid = () => {
     
     return deptMatch && instrumentMatch;
   });
+
+  const handleRecruitmentClick = (e: React.MouseEvent, person: any) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setRecruitmentModal({ isOpen: true, person });
+  };
+
+  const closeRecruitmentModal = () => {
+    setRecruitmentModal({ isOpen: false, person: null });
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black">
@@ -286,9 +300,12 @@ const PeopleGrid = () => {
 
                   {/* Recruitment Needs Indicator */}
                   {person.recruitmentNeeds && (
-                    <div className="text-xs text-primary font-medium bg-primary/10 px-3 py-1 rounded-full border border-primary/30">
+                    <button
+                      onClick={(e) => handleRecruitmentClick(e, person)}
+                      className="text-xs text-primary font-medium bg-primary/10 px-3 py-1 rounded-full border border-primary/30 hover:bg-primary/20 hover:border-primary/50 transition-all duration-300 cursor-pointer"
+                    >
                       Recruiting
-                    </div>
+                    </button>
                   )}
                 </div>
               </div>
@@ -310,6 +327,106 @@ const PeopleGrid = () => {
                 : "No members found."
               }
             </p>
+          </div>
+        )}
+
+        {/* Recruitment Modal */}
+        {recruitmentModal.isOpen && recruitmentModal.person && (
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+            <div className="bg-gray-800 rounded-2xl p-8 max-w-md w-full mx-4 relative border border-gray-700/50">
+              {/* Close Button */}
+              <button
+                onClick={closeRecruitmentModal}
+                className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
+              >
+                <FontAwesomeIcon icon={faTimes} size="lg" />
+              </button>
+              
+              {/* Modal Content */}
+              <div className="text-center">
+                {/* Person Info */}
+                <div className="flex items-center justify-center mb-6">
+                  <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-gray-700 mr-4">
+                    {recruitmentModal.person.photo ? (
+                      <Image
+                        src={recruitmentModal.person.photo}
+                        alt={recruitmentModal.person.name}
+                        width={64}
+                        height={64}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-gray-700 flex items-center justify-center">
+                        <FontAwesomeIcon icon={faMusic} size="lg" className="text-gray-500" />
+                      </div>
+                    )}
+                  </div>
+                  <div className="text-left">
+                    <h3 className="text-xl font-bold text-white">{recruitmentModal.person.name}</h3>
+                    <p className="text-gray-400 text-sm">Recruitment Needs</p>
+                  </div>
+                </div>
+
+                {/* Recruitment Details */}
+                <div className="bg-gray-700/30 rounded-xl p-6 border border-gray-600/30">
+                  <div className="flex items-start gap-3">
+                    <FontAwesomeIcon 
+                      icon={faUsers} 
+                      size="sm" 
+                      className="text-primary mt-1 flex-shrink-0" 
+                    />
+                    <div className="text-left">
+                      <p className="text-gray-300 leading-relaxed font-postmodern-body">
+                        {recruitmentModal.person.recruitmentNeeds}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Contact Info */}
+                {recruitmentModal.person.social && (
+                  <div className="mt-6">
+                    <p className="text-gray-400 text-sm mb-3">Contact for more details:</p>
+                    <div className="flex justify-center gap-3">
+                      {recruitmentModal.person.social.instagram && (
+                        <a
+                          href={recruitmentModal.person.social.instagram.startsWith('http')
+                            ? recruitmentModal.person.social.instagram
+                            : `https://instagram.com/${recruitmentModal.person.social.instagram.replace(/^@/, '')}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="w-10 h-10 bg-gradient-to-br from-pink-500 to-purple-600 rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform duration-300"
+                        >
+                          <FontAwesomeIcon icon={faInstagramBrand} size="sm" />
+                        </a>
+                      )}
+                      {recruitmentModal.person.social.telegram && (
+                        <a
+                          href={recruitmentModal.person.social.telegram.startsWith('http')
+                            ? recruitmentModal.person.social.telegram
+                            : `https://t.me/${recruitmentModal.person.social.telegram.replace(/^@/, '')}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform duration-300"
+                        >
+                          <FontAwesomeIcon icon={faTelegramBrand} size="sm" />
+                        </a>
+                      )}
+                      {recruitmentModal.person.social.wechat && (
+                        <a
+                          href={recruitmentModal.person.social.wechat}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform duration-300"
+                        >
+                          <FontAwesomeIcon icon={faWeixinBrand} size="sm" />
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         )}
       </div>
