@@ -9,6 +9,7 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import React from "react";
 import { GENERAL_RECRUITMENT_NEEDS } from "@/data/recruitmentNeeds";
+import JoinUsButton from "@/components/JoinUsButton";
 
 interface PageParams {
   id: string;
@@ -26,7 +27,6 @@ interface AlbumInfo {
 export default function PersonPage({ params }: { params: Promise<PageParams> }) {
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   const [isQRCodeModalOpen, setIsQRCodeModalOpen] = useState(false);
-  const [isJoinUsModalOpen, setIsJoinUsModalOpen] = useState(false);
   const [albumsInfo, setAlbumsInfo] = useState<AlbumInfo[]>([]);
   const { id } = React.use(params);
   const person = peopleData.find(p => p.id === id);
@@ -629,55 +629,14 @@ export default function PersonPage({ params }: { params: Promise<PageParams> }) 
         )}
 
         {/* 固定位置的Join Us按钮 */}
-        <div className="fixed top-16 right-2 sm:top-20 sm:right-4 md:top-24 md:right-6 lg:top-28 lg:right-8 z-60">
-          <button
-            onClick={() => setIsJoinUsModalOpen(true)}
-            className="animate-ping-custom transition-all duration-300 cursor-pointer focus:outline-none focus:ring-4 focus:ring-purple-500/50 rounded-lg p-2 md:p-3 transform rotate-12"
-          >
-            <span className="font-join-us">
-              Join Us
-            </span>
-          </button>
-        </div>
-
-        {/* Join Us Modal */}
-        {isJoinUsModalOpen && (
-          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
-            <div className="bg-gray-800 rounded-xl p-8 max-w-2xl w-full mx-4 relative border border-gray-700 shadow-2xl max-h-[90vh] overflow-y-auto">
-              <button
-                onClick={() => setIsJoinUsModalOpen(false)}
-                className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
-              >
-                <X size={24} />
-              </button>
-              
-              <div className="text-center mb-6">
-                <h2 className="text-3xl font-bold text-white mb-4 font-postmodern-display">
-                  Join Us
-                </h2>
-              </div>
-              
-              <div className="space-y-6">
-                {/* 个人招聘需求 */}
-                <div className="bg-primary/10 rounded-lg p-6 border border-primary/20">
-                  <h3 className="text-xl font-bold text-primary mb-3">
-                    {person.name} 的直选需求
-                  </h3>
-                  <p className="text-gray-300 text-sm">
-                    {person.recruitmentNeeds && person.recruitmentNeeds.trim() ? person.recruitmentNeeds : "暂无特定招聘需求"}
-                  </p>
-                </div>
-                
-                {/* 总招聘需求 */}
-                <div className="bg-gray-900/50 rounded-lg p-6">
-                  <pre className="text-gray-300 whitespace-pre-wrap text-sm leading-relaxed">
-                    {GENERAL_RECRUITMENT_NEEDS}
-                  </pre>
-                </div>
-              </div>
+        <JoinUsButton 
+          customContent={
+            <div className="bg-primary/10 rounded-lg p-6 border border-primary/20 mb-6">
+              <h3 className="text-xl font-bold text-primary mb-3">{person.name} 的直选需求</h3>
+              <p className="text-gray-300 text-sm">{person.recruitmentNeeds && person.recruitmentNeeds.trim() ? person.recruitmentNeeds : "暂无特定招聘需求"}</p>
             </div>
-          </div>
-        )}
+          }
+        />
 
       </div>
     </div>
