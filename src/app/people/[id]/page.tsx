@@ -354,13 +354,21 @@ export default function PersonPage({ params }: { params: Promise<PageParams> }) 
                 >
                   <div className="flex items-center gap-4 mb-4">
                     <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-gray-700 group-hover:border-primary/50 transition-colors">
-                      <Image
-                        src={band.photo}
-                        alt={band.name}
-                        width={64}
-                        height={64}
-                        className="w-full h-full object-cover"
-                      />
+                      {/* 乐队照片 */}
+                      {band.photo ? (
+                        <Image
+                          src={band.photo}
+                          alt={band.name}
+                          width={64}
+                          height={64}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <div className="w-full h-full bg-gray-600/50 flex items-center justify-center">
+                          <Music size={24} className="text-gray-400" />
+                        </div>
+                      )}
+                      
                     </div>
                     <div className="flex-1">
                       <h3 className="text-xl font-bold text-white group-hover:text-primary transition-colors">
@@ -386,7 +394,7 @@ export default function PersonPage({ params }: { params: Promise<PageParams> }) 
                   
                   <div className="flex items-center justify-between text-xs text-gray-500">
                     <span>成立于 {band.formed}</span>
-                    <span>{band.members.length} 成员</span>
+                    <span>{band.members?.length} 成员</span>
                   </div>
                   
                   {/* Hover Effect */}
