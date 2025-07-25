@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { peopleData } from "@/data/people";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMusic, faUsers, faMicrophone, faDrum, faGuitar, faCog, faCommentDots, faBullhorn, faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { faMusic, faUsers, faMicrophone, faDrum, faGuitar, faCog, faCommentDots, faBullhorn, faChevronDown, faComment } from '@fortawesome/free-solid-svg-icons';
 import Image from "next/image";
 import Link from "next/link";
 
@@ -152,7 +152,7 @@ const PeopleGrid = () => {
                           <FontAwesomeIcon icon={faMusic} size="2x" className="text-gray-500" />
                         </div>
                       )}
-                    </div>
+                    </div> 
                   </div>
                   
                   <div className="flex-1">
@@ -182,6 +182,22 @@ const PeopleGrid = () => {
                     </div>
                   </div>
                 </div>
+
+                {/* Casual Talk Section */}
+                {person.casualTalk && (
+                  <div className="mt-4 p-4 bg-gray-700/30 rounded-xl border border-gray-600/30">
+                    <div className="flex items-start gap-3">
+                      <FontAwesomeIcon 
+                        icon={faComment} 
+                        size="sm" 
+                        className="text-primary mt-1 flex-shrink-0" 
+                      />
+                      <p className="text-sm text-gray-300 italic leading-relaxed font-postmodern-body">
+                        "{person.casualTalk}"
+                      </p>
+                    </div>
+                  </div>
+                )}
               </div>
             </Link>
           ))}
