@@ -13,7 +13,7 @@ const BandsPage = () => {
       <BandsGrid />
       
       {/* 固定位置的Join Us按钮 */}
-      <div className="fixed top-20 right-4 z-60">
+              <div className="fixed top-25 right-7 z-60">
         <button
           onClick={() => setIsJoinUsModalOpen(true)}
           className="animate-ping-custom transition-all duration-300 cursor-pointer focus:outline-none focus:ring-4 focus:ring-purple-500/50 rounded-lg p-2 md:p-3 transform rotate-12"
